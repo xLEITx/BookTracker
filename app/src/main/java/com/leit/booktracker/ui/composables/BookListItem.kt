@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.leit.booktracker.R
+import com.leit.booktracker.data.BookStatus
 import com.leit.booktracker.ui.theme.BookTrackerTheme
 import com.leit.booktracker.ui.theme.blueA700
 import com.leit.booktracker.ui.theme.greenA700
@@ -30,13 +31,13 @@ import com.leit.booktracker.ui.theme.greenA700
 @Composable
 fun BookListItem(
     title:String,
-    status:String,
+    status:BookStatus,
     author:String,
     onIconButtonClick:() -> Unit,
     modifier: Modifier = Modifier,
     @DrawableRes cover:Int? = null,
 ){
-    Card(modifier = modifier.padding(horizontal = 8.dp)) {
+    Card(modifier = modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -49,12 +50,12 @@ fun BookListItem(
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = when(status){
-                    "In progress" -> Modifier
+                    BookStatus.IN_PROGRESS -> Modifier
                         .size(48.dp)
                         .clip(CircleShape)
                         .border(width = 2.dp, color = greenA700, shape = CircleShape)
 
-                    "In wishlist" -> Modifier
+                    BookStatus.IN_WISHLIST -> Modifier
                         .size(48.dp)
                         .clip(CircleShape)
                         .border(width = 2.dp, color = blueA700, shape = CircleShape)
@@ -76,7 +77,7 @@ fun BookListItem(
                 Text(text = author, style = MaterialTheme.typography.labelMedium)
             }
 
-            if (status == "In wishlist"){
+            if (status == BookStatus.IN_WISHLIST){
                 IconButton(onClick = onIconButtonClick) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = "")
                 }
@@ -89,21 +90,6 @@ fun BookListItem(
 @Preview(showBackground = true, widthDp = 360)
 fun BookListItemPreview(){
     BookTrackerTheme {
-        BookListItem(title = "Harry Potter", status = "In wishlist", author="J.K. Rowling", cover = R.drawable.harry, onIconButtonClick = {})
-    }
-}
-
-@Composable
-@Preview(showBackground = true, widthDp = 360)
-fun BookListItemStackPreview(){
-    BookTrackerTheme {
-        Column(modifier = Modifier) {
-            BookListItem(title = "Harry Potter", status = "In wishlist", author="J.K. Rowling", cover = R.drawable.harry, onIconButtonClick = {})
-            Spacer(modifier = Modifier.height(8.dp))
-            BookListItem(title = "Bot", status = "In progress", author="Max Kidruk", onIconButtonClick = {})
-            Spacer(modifier = Modifier.height(8.dp))
-            BookListItem(title = "Tower", status = "On boolshelf", author="King", onIconButtonClick = {})
-        }
-
+        BookListItem(title = "Harry Potter", status = BookStatus.IN_PROGRESS, author="J.K. Rowling", cover = R.drawable.harry, onIconButtonClick = {})
     }
 }
