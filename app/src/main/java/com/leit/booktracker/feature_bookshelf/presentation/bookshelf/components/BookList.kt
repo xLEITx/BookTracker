@@ -6,13 +6,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Composition
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.leit.booktracker.R
-import com.leit.booktracker.data.Book
-import com.leit.booktracker.data.BookStatus
+import com.leit.booktracker.feature_bookshelf.domain.model.Book
+import com.leit.booktracker.feature_bookshelf.domain.model.BookStatus
 import com.leit.booktracker.ui.theme.BookTrackerTheme
 
 @Composable

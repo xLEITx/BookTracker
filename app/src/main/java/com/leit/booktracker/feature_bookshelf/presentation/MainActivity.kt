@@ -1,4 +1,4 @@
-package com.leit.booktracker
+package com.leit.booktracker.feature_bookshelf.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
