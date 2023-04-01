@@ -1,16 +1,15 @@
 package com.leit.booktracker.feature_bookshelf.domain.model
 
-import androidx.annotation.DrawableRes
-
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.leit.booktracker.feature_bookshelf.domain.util.BookStatus
+@Entity
 data class Book(
+    @PrimaryKey val bookId:Int,
     val title:String,
     val author:String,
-    @DrawableRes val cover:Int?,
-    val status: BookStatus,
-    val type:String
+    val type:String,
+    val status:String,
+    val pagesCount:Int,
+    val coverPath:String? = null
 )
-
-enum class BookStatus {
-    IN_PROGRESS, IN_WISHLIST, ON_BOOKSHELF
-}
-
