@@ -11,12 +11,15 @@ import com.leit.booktracker.feature_bookshelf.domain.model.ReadingSession
         Book::class,
         ReadingSession::class
     ],
-    version = 1
+    version = 1,
 )
 abstract class BookTrackerDatabase: RoomDatabase() {
 
     abstract val bookTrackerDao:BookTrackerDao
 
+    companion object{
+        const val DATABASE_NAME = "books_db"
+    }
 /*    companion object{
         @Volatile
         private var INSTANCE:BookTrackerDatabase? = null
