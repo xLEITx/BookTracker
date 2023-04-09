@@ -12,6 +12,7 @@ import com.leit.booktracker.feature_bookshelf.domain.model.ReadingSession
         ReadingSession::class
     ],
     version = 1,
+    exportSchema = false
 )
 abstract class BookTrackerDatabase: RoomDatabase() {
 
