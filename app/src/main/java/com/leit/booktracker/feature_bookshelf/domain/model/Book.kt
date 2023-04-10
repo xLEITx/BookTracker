@@ -13,3 +13,5 @@ data class Book(
     val pagesCount:Int,
     val coverPath:String? = null
 )
+
+class InvalidBookException(message:String):Exception(message)
