@@ -47,7 +47,11 @@ class BookShelfViewModel @Inject constructor(
                 }
             }
             is BookShelfEvent.ChangeStatus ->{
-                //TODO: think about implementation of adding book from wishlist on book shelf
+                viewModelScope.launch {
+                   bookShelfUseCases.insertBook(
+                        event.book.copy(status = event.status)
+                   )
+                }
             }
             is BookShelfEvent.RestoreBook ->{
                 viewModelScope.launch {
