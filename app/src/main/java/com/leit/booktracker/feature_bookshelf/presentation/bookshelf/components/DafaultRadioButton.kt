@@ -5,14 +5,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.room.IMultiInstanceInvalidationCallback.Default
 import com.leit.booktracker.ui.theme.BookTrackerTheme
 
 @Composable
@@ -33,7 +31,7 @@ fun DefaultRadioButton(
 @Preview(showBackground = true)
 @Composable
 private fun DefaultRadioButtonPreview(){
-    BookTrackerTheme() {
+    BookTrackerTheme {
         DefaultRadioButton(text = "Status", selected = true, onSelect = {})
     }
 }

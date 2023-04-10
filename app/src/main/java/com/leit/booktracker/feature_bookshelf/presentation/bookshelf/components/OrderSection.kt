@@ -1,7 +1,6 @@
 package com.leit.booktracker.feature_bookshelf.presentation.bookshelf.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -75,7 +74,7 @@ fun OrderSection(
 @Preview(showBackground = true, widthDp = 320)
 @Composable
 fun OrderSectionPreview(){
-    BookTrackerTheme() {
+    BookTrackerTheme {
         OrderSection(onOrderChange = {})
     }
 }
