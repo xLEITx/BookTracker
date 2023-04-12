@@ -6,4 +6,11 @@
     <string name="type">Type</string>
     <string name="descending">Descending</string>
     <string name="ascending">Ascending</string>
+    <string name="add_note_fbutton_desc">Add note</string>
+    <string name="bookshelf_screen_title">Your books</string>
+    <string name="sort">Sort</string>
+    <string name="delete_book_iconbtn_desc">Delete book from list</string>
+    <string name="add_book_on_bookshelf_icnbtn_desc">Add book on bookshelf</string>
+    <string name="book_deleted_snackbar_msg">Book deleted</string>
+    <string name="undo">Undo</string>
 </resources>

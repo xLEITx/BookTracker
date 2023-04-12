@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.leit.booktracker.R
@@ -25,7 +27,8 @@ import com.leit.booktracker.ui.theme.greenA700
 @Composable
 fun BookItem(
     book: Book,
-    onIconButtonClick: (Book) -> Unit,
+    onAddButtonClick: () -> Unit,
+    onDeleteButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ){
     Card(modifier = modifier) {
@@ -74,9 +77,14 @@ fun BookItem(
                     modifier = Modifier
                 )
             }
+
+            IconButton(onClick = onDeleteButtonClick) {
+                Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.delete_book_iconbtn_desc))
+            }
+
             if (book.status == BookStatus.IN_WISHLIST){
-                IconButton(onClick = {onIconButtonClick(book)}) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "")
+                IconButton(onClick = onAddButtonClick) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.add_book_on_bookshelf_icnbtn_desc))
                 }
             }
         }
@@ -87,6 +95,6 @@ fun BookItem(
 @Composable
 fun BookItemPreview(){
     BookTrackerTheme {
-        BookItem(Book(1,"Voroshilovgrad", "S. Zhadan", "IDK", BookStatus.IN_WISHLIST,54), {})
+        BookItem(Book(1,"Voroshilovgrad", "S. Zhadan", "IDK", BookStatus.IN_WISHLIST,54), {}, {})
     }
 }
