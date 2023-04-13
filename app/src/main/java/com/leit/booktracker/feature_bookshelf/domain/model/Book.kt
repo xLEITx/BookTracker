@@ -2,10 +2,9 @@ package com.leit.booktracker.feature_bookshelf.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.leit.booktracker.feature_bookshelf.domain.util.BookStatus
 @Entity
 data class Book(
-    @PrimaryKey val bookId:Int,
+    @PrimaryKey(autoGenerate = true) val bookId:Int? = null,
     val title:String,
     val author:String,
     val type:String,

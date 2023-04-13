@@ -13,4 +13,7 @@
     <string name="add_book_on_bookshelf_icnbtn_desc">Add book on bookshelf</string>
     <string name="book_deleted_snackbar_msg">Book deleted</string>
     <string name="undo">Undo</string>
+    <string name="enter_title_hint">Enter title…</string>
+    <string name="enter_author_hint">Enter author…</string>
+    <string name="error_msg_while_saving">Could`t save note</string>
 </resources>
