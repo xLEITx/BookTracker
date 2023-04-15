@@ -22,6 +22,7 @@ import com.leit.booktracker.R
 import com.leit.booktracker.feature_bookshelf.domain.util.BookStatus
 import com.leit.booktracker.feature_bookshelf.presentation.bookshelf.components.BookItem
 import com.leit.booktracker.feature_bookshelf.presentation.bookshelf.components.OrderSection
+import com.leit.booktracker.feature_bookshelf.presentation.util.Screen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -41,7 +42,7 @@ fun BookShelfScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                
+                navController.navigate(Screen.BookAddEditScreen.route)
             }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.add_note_fbutton_desc))
             }
@@ -99,7 +100,7 @@ fun BookShelfScreen(
                             }
                         },
                         modifier = Modifier.clickable {
-                            //TODO:Implement transaction to the detail screen
+                            navController.navigate(Screen.BookAddEditScreen.route +"?bookId = ${book.bookId}")
                         }
                     )
                     Spacer(Modifier.height(4.dp))
