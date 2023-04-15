@@ -19,4 +19,9 @@
     <string name="save_floatbtn">Save</string>
     <string name="choose_type">Choose type</string>
     <string name="select_status">Select status</string>
+    <string name="add_new_book_header">Add new book</string>
+    <string name="edit_book_header">Edit book</string>
+    <string name="decrease_pages_count_imgbtn">decrease pages count</string>
+    <string name="increase_pages_count_ingbtn">Increase pages count</string>
+    <string name="book_pages">Book pages:</string>
 </resources>

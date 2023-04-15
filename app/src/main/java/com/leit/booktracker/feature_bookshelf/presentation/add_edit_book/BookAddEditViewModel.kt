@@ -44,13 +44,14 @@ class BookAddEditViewModel @Inject constructor(
     private val _bookStatus = mutableStateOf("")
     val bookStatus: State<String> = _bookStatus
 
-    private val _bookPages = mutableStateOf("")
-    val bookPages: State<String> = _bookPages
+    private val _bookPages = mutableStateOf(0)
+    val bookPages: State<Int> = _bookPages
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow
 
     private var currentBookId: Int? = null
+    val isNewBook = currentBookId === null
 
     init {
         savedStateHandle.get<Int>("bookId")?.let {bookId ->
@@ -68,7 +69,7 @@ class BookAddEditViewModel @Inject constructor(
                         )
                         _bookType.value = book.type
                         _bookStatus.value = book.status
-                        _bookPages.value = book.pagesCount.toString()
+                        _bookPages.value = book.pagesCount
                     }
                 }
             }
@@ -122,7 +123,7 @@ class BookAddEditViewModel @Inject constructor(
                                 author = bookAuthor.value.text,
                                 type = bookType.value,
                                 status = bookStatus.value,
-                                pagesCount = bookPages.value.toInt()
+                                pagesCount = bookPages.value
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveBook)
