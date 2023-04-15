@@ -16,4 +16,6 @@
     <string name="enter_title_hint">Enter title…</string>
     <string name="enter_author_hint">Enter author…</string>
     <string name="error_msg_while_saving">Could`t save note</string>
+    <string name="save_floatbtn">Save</string>
+    <string name="choose_type">Choose type</string>
 </resources>

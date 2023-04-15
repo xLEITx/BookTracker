@@ -128,7 +128,8 @@ class BookAddEditViewModel @Inject constructor(
                     } catch (e: InvalidBookException) {
                         _eventFlow.emit(
                             UiEvent.ShowSnackBar(
-                                e.message ?: "Couldn't save note" )
+                                e.message ?: "Couldn't save note"
+                            )
                         )
 
                     }
