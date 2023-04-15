@@ -14,6 +14,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,6 +27,7 @@ import com.leit.booktracker.feature_bookshelf.domain.util.BookStatus
 import com.leit.booktracker.feature_bookshelf.presentation.add_edit_book.components.Spinner
 import com.leit.booktracker.feature_bookshelf.presentation.util.StatusOptions
 import com.leit.booktracker.feature_bookshelf.presentation.util.TypeOptions
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun BookAddEditScreen(
@@ -40,6 +42,22 @@ fun BookAddEditScreen(
     val pages = viewModel.bookPages.value
 
     val snackbarHostState = remember { SnackbarHostState() }
+    
+    LaunchedEffect(key1 = true){
+        viewModel.eventFlow.collectLatest { event ->
+            when(event){
+                is BookAddEditViewModel.UiEvent.ShowSnackBar ->{
+                    snackbarHostState.showSnackbar(
+                        message = event.message
+                    )
+                }
+                is BookAddEditViewModel.UiEvent.SaveBook -> {
+                    navController.navigateUp()
+                }
+            }
+
+        }
+    }
     
     Scaffold(
         floatingActionButton = {

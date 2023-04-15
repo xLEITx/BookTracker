@@ -48,6 +48,7 @@ class BookAddEditViewModel @Inject constructor(
     val bookPages: State<String> = _bookPages
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow
 
     private var currentBookId: Int? = null
 
