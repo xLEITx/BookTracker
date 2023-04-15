@@ -1,6 +1,7 @@
 package com.leit.booktracker.feature_bookshelf.presentation.add_edit_book
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -51,7 +52,7 @@ class BookAddEditViewModel @Inject constructor(
     val eventFlow = _eventFlow
 
     private var currentBookId: Int? = null
-    val isNewBook = currentBookId == -1
+
 
     init {
         savedStateHandle.get<Int>("bookId")?.let {bookId ->
@@ -75,6 +76,8 @@ class BookAddEditViewModel @Inject constructor(
             }
         }
     }
+
+    val isNewBook = currentBookId == -1
 
     fun onEvent(event: AddEditBookEvent) {
         when (event) {
@@ -128,6 +131,7 @@ class BookAddEditViewModel @Inject constructor(
                         )
                         _eventFlow.emit(UiEvent.SaveBook)
                     } catch (e: InvalidBookException) {
+                        Log.e("Add_VM", e.message?:"Couldn't save note")
                         _eventFlow.emit(
                             UiEvent.ShowSnackBar(
                                 e.message ?: "Couldn't save note"

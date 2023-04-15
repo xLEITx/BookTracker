@@ -46,6 +46,17 @@ fun BookShelfScreen(
             }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.add_note_fbutton_desc))
             }
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState){data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+                
+            }
         }
     ) {
         Column(
@@ -91,7 +102,8 @@ fun BookShelfScreen(
                             scope.launch {
                                 val result = snackbarHostState.showSnackbar(
                                     message = snackbarStrings[0],
-                                    actionLabel = snackbarStrings[1]
+                                    actionLabel = snackbarStrings[1],
+                                    duration = SnackbarDuration.Long
                                 )
 
                                 if(result == SnackbarResult.ActionPerformed){

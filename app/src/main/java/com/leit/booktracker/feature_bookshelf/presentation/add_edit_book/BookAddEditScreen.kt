@@ -19,12 +19,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -36,6 +40,7 @@ import com.leit.booktracker.feature_bookshelf.presentation.add_edit_book.compone
 import com.leit.booktracker.feature_bookshelf.presentation.util.StatusOptions
 import com.leit.booktracker.feature_bookshelf.presentation.util.TypeOptions
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun BookAddEditScreen(
@@ -50,14 +55,18 @@ fun BookAddEditScreen(
     val pages = viewModel.bookPages.value
 
     val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
     
     LaunchedEffect(key1 = true){
         viewModel.eventFlow.collectLatest { event ->
             when(event){
                 is BookAddEditViewModel.UiEvent.ShowSnackBar ->{
-                    snackbarHostState.showSnackbar(
-                        message = event.message
-                    )
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = event.message,
+                            duration = SnackbarDuration.Short
+                        )
+                    }
                 }
                 is BookAddEditViewModel.UiEvent.SaveBook -> {
                     navController.navigateUp()
@@ -71,6 +80,16 @@ fun BookAddEditScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = {viewModel.onEvent(AddEditBookEvent.SaveBook)}) {
                 Icon(imageVector = Icons.Default.Save, contentDescription = stringResource(R.string.save_floatbtn))
+            }
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState){data->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             }
         }
     ) {
