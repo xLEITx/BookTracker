@@ -51,7 +51,7 @@ class BookAddEditViewModel @Inject constructor(
     val eventFlow = _eventFlow
 
     private var currentBookId: Int? = null
-    val isNewBook = currentBookId === null
+    val isNewBook = currentBookId == -1
 
     init {
         savedStateHandle.get<Int>("bookId")?.let {bookId ->

@@ -100,7 +100,7 @@ fun BookShelfScreen(
                             }
                         },
                         modifier = Modifier.clickable {
-                            navController.navigate(Screen.BookAddEditScreen.route +"?bookId = ${book.bookId}")
+                            navController.navigate(Screen.BookAddEditScreen.route +"?bookId=${book.bookId}")
                         }
                     )
                     Spacer(Modifier.height(4.dp))
