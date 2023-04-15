@@ -21,6 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.leit.booktracker.R
+import com.leit.booktracker.feature_bookshelf.domain.model.Book
+import com.leit.booktracker.feature_bookshelf.domain.util.BookStatus
+import com.leit.booktracker.feature_bookshelf.presentation.add_edit_book.components.Spinner
+import com.leit.booktracker.feature_bookshelf.presentation.util.StatusOptions
+import com.leit.booktracker.feature_bookshelf.presentation.util.TypeOptions
 
 @Composable
 fun BookAddEditScreen(
@@ -75,7 +80,23 @@ fun BookAddEditScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            Spinner(
+                options = TypeOptions.options,
+                chosenOption = type,
+                onOptionChange = { viewModel.onEvent(AddEditBookEvent.SelectedType(it)) },
+                label = stringResource(R.string.choose_type)
+            )
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Spinner(
+                options = StatusOptions.options,
+                chosenOption = status,
+                label = stringResource(R.string.select_status),
+                onOptionChange = {viewModel.onEvent(AddEditBookEvent.SelectedStatus(it))}
+            )
+
+            //TODO:pages
 
 
 

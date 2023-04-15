@@ -23,6 +23,7 @@ import com.leit.booktracker.ui.theme.BookTrackerTheme
 fun Spinner(
     options:List<String>,
     chosenOption:String,
+    label:String,
     onOptionChange:(String)-> Unit,
     modifier: Modifier = Modifier
 ){
@@ -34,7 +35,7 @@ fun Spinner(
             value = chosenOption,
             onValueChange = onOptionChange,
             readOnly = true,
-            label = { Text(text = stringResource(R.string.choose_type))},
+            label = { Text(text = label)},
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
@@ -63,6 +64,6 @@ fun Spinner(
 @Composable
 fun SpinnerPreview(){
     BookTrackerTheme {
-        Spinner(options = listOf("1", "2", "3"), chosenOption = "2", onOptionChange = {} )
+        Spinner(options = listOf("1", "2", "3"), chosenOption = "2", onOptionChange = {} , label = stringResource(R.string.choose_type))
     }
 }

@@ -18,4 +18,5 @@
     <string name="error_msg_while_saving">Could`t save note</string>
     <string name="save_floatbtn">Save</string>
     <string name="choose_type">Choose type</string>
+    <string name="select_status">Select status</string>
 </resources>
