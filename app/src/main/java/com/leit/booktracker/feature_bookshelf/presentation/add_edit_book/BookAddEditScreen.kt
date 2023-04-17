@@ -15,7 +15,6 @@ import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -36,11 +35,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.leit.booktracker.R
+import com.leit.booktracker.feature_bookshelf.presentation.add_edit_book.components.PressedIconButton
 import com.leit.booktracker.feature_bookshelf.presentation.add_edit_book.components.Spinner
 import com.leit.booktracker.feature_bookshelf.presentation.util.StatusOptions
 import com.leit.booktracker.feature_bookshelf.presentation.util.TypeOptions
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.lang.Thread.sleep
 
 @Composable
 fun BookAddEditScreen(
@@ -189,21 +190,22 @@ fun BookAddEditScreen(
 
                 Surface(shape = CircleShape, color = MaterialTheme.colorScheme.surfaceVariant) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        IconButton(
-                            onClick = {
+                        PressedIconButton(
+                            enabled = pages > 0,
+                            icon = Icons.Default.Remove,
+                            iconDescription = stringResource(R.string.decrease_pages_count_imgbtn),
+                            onPress = {
+                                sleep(150)
                                 viewModel.onEvent(
                                     AddEditBookEvent.ChangePages(
                                         value = pages - 1
                                     )
                                 )
+
                             },
-                            enabled = pages > 0
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Remove,
-                                contentDescription = stringResource(R.string.decrease_pages_count_imgbtn)
-                            )
-                        }
+                            onDispose = {}
+                        )
+
 
                         Text(
                             text = pages.toString(),
@@ -211,19 +213,21 @@ fun BookAddEditScreen(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
 
-                        IconButton(onClick = {
-                            viewModel.onEvent(
-                                AddEditBookEvent.ChangePages(
-                                    value = pages + 1
+                        PressedIconButton(
+                            enabled = true,
+                            icon = Icons.Default.Add,
+                            iconDescription = stringResource(R.string.increase_pages_count_ingbtn) ,
+                            onPress = {
+                                sleep(150)
+                                viewModel.onEvent(
+                                    AddEditBookEvent.ChangePages(
+                                        value = pages + 1
+                                    )
                                 )
-                            )
-                        }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = stringResource(R.string.increase_pages_count_ingbtn)
-                            )
-                        }
+                            },
+                            onDispose = {}
+                        )
+
                     }
                 }
 

@@ -110,7 +110,9 @@ class BookAddEditViewModel @Inject constructor(
             }
 
             is AddEditBookEvent.ChangePages -> {
-                _bookPages.value = event.value
+                if (event.value > -1) {
+                    _bookPages.value = event.value
+                }
             }
 
             is AddEditBookEvent.SaveBook -> {
