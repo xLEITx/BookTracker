@@ -15,6 +15,13 @@ class InsertBook(
         if(book.author.isBlank()){
             throw InvalidBookException("The author can`t be empty")
         }
+        if(book.type.isBlank()){
+            throw InvalidBookException("The type can`t be empty")
+        }
+        if(book.status.isBlank()){
+            throw InvalidBookException("The status can`t be empty")
+        }
+
 
         repository.insertBook(book)
     }

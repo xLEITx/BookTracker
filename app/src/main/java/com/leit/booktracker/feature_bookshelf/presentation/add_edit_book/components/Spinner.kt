@@ -22,12 +22,12 @@ import com.leit.booktracker.ui.theme.BookTrackerTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Spinner(
-    options:List<String>,
-    chosenOption:String,
-    label:String,
-    onOptionChange:(String)-> Unit,
+    options: List<String>,
+    chosenOption: String,
+    label: String,
+    onOptionChange: (String) -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
@@ -36,19 +36,21 @@ fun Spinner(
         modifier = modifier
     ) {
         OutlinedTextField(
-            modifier = Modifier.menuAnchor().fillMaxWidth(),
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth(),
             value = chosenOption,
             onValueChange = onOptionChange,
             readOnly = true,
-            label = { Text(text = label)},
+            label = { Text(text = label) },
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
         )
-        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false}) {
-            options.forEach{selectedOption ->
+        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            options.forEach { selectedOption ->
                 DropdownMenuItem(
-                    text = { Text(text = selectedOption)},
+                    text = { Text(text = selectedOption) },
                     onClick = {
                         onOptionChange(selectedOption)
                         expanded = false
@@ -60,15 +62,18 @@ fun Spinner(
 
         }
     }
-    
-    
-    
+
+
 }
 
 @Preview(showBackground = true, heightDp = 320)
 @Composable
-fun SpinnerPreview(){
+fun SpinnerPreview() {
     BookTrackerTheme {
-        Spinner(options = listOf("1", "2", "3"), chosenOption = "2", onOptionChange = {} , label = stringResource(R.string.choose_type))
+        Spinner(
+            options = listOf("1", "2", "3"),
+            chosenOption = "2",
+            onOptionChange = {},
+            label = stringResource(R.string.choose_type))
     }
 }

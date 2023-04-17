@@ -46,7 +46,7 @@ import kotlinx.coroutines.launch
 fun BookAddEditScreen(
     navController: NavController,
     viewModel: BookAddEditViewModel = hiltViewModel()
-){
+) {
 
     val title = viewModel.bookTitle.value
     val author = viewModel.bookAuthor.value
@@ -56,11 +56,11 @@ fun BookAddEditScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    
-    LaunchedEffect(key1 = true){
+
+    LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
-            when(event){
-                is BookAddEditViewModel.UiEvent.ShowSnackBar ->{
+            when (event) {
+                is BookAddEditViewModel.UiEvent.ShowSnackBar -> {
                     scope.launch {
                         snackbarHostState.showSnackbar(
                             message = event.message,
@@ -68,6 +68,7 @@ fun BookAddEditScreen(
                         )
                     }
                 }
+
                 is BookAddEditViewModel.UiEvent.SaveBook -> {
                     navController.navigateUp()
                 }
@@ -75,15 +76,18 @@ fun BookAddEditScreen(
 
         }
     }
-    
+
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = {viewModel.onEvent(AddEditBookEvent.SaveBook)}) {
-                Icon(imageVector = Icons.Default.Save, contentDescription = stringResource(R.string.save_floatbtn))
+            FloatingActionButton(onClick = { viewModel.onEvent(AddEditBookEvent.SaveBook) }) {
+                Icon(
+                    imageVector = Icons.Default.Save,
+                    contentDescription = stringResource(R.string.save_floatbtn)
+                )
             }
         },
         snackbarHost = {
-            SnackbarHost(snackbarHostState){data->
+            SnackbarHost(snackbarHostState) { data ->
                 Snackbar(
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -98,23 +102,31 @@ fun BookAddEditScreen(
                 .fillMaxSize()
                 .padding(16.dp),
 
-        ) {
+            ) {
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
-            ){
-                if (viewModel.isNewBook){
-                    Text(text = stringResource(R.string.add_new_book_header), style = MaterialTheme.typography.headlineLarge)
-                }else{
-                    Text(text = stringResource(R.string.edit_book_header), style = MaterialTheme.typography.headlineLarge)
+            ) {
+                if (viewModel.isNewBook) {
+                    Text(
+                        text = stringResource(R.string.add_new_book_header),
+                        style = MaterialTheme.typography.headlineLarge
+                    )
+                } else {
+                    Text(
+                        text = stringResource(R.string.edit_book_header),
+                        style = MaterialTheme.typography.headlineLarge
+                    )
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
                 OutlinedTextField(
+                    singleLine = true,
                     value = title.text,
                     onValueChange = {
                         viewModel.onEvent(AddEditBookEvent.EnteredTitle(it))
@@ -130,6 +142,7 @@ fun BookAddEditScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 OutlinedTextField(
+                    singleLine = true,
                     value = author.text,
                     onValueChange = {
                         viewModel.onEvent(AddEditBookEvent.EnteredAuthor(it))
@@ -160,7 +173,7 @@ fun BookAddEditScreen(
                     options = StatusOptions.options,
                     chosenOption = status,
                     label = stringResource(R.string.select_status),
-                    onOptionChange = {viewModel.onEvent(AddEditBookEvent.SelectedStatus(it))},
+                    onOptionChange = { viewModel.onEvent(AddEditBookEvent.SelectedStatus(it)) },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth()
@@ -176,13 +189,14 @@ fun BookAddEditScreen(
 
                 Surface(shape = CircleShape, color = MaterialTheme.colorScheme.surfaceVariant) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        IconButton(onClick = {
-                            viewModel.onEvent(
-                                AddEditBookEvent.ChangePages(
-                                    value = pages-1
+                        IconButton(
+                            onClick = {
+                                viewModel.onEvent(
+                                    AddEditBookEvent.ChangePages(
+                                        value = pages - 1
+                                    )
                                 )
-                            )
-                        },
+                            },
                             enabled = pages > 0
                         ) {
                             Icon(
@@ -214,13 +228,6 @@ fun BookAddEditScreen(
                 }
 
             }
-
-
-
-
-
-
-
 
 
         }
