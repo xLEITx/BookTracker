@@ -24,4 +24,21 @@
     <string name="decrease_pages_count_imgbtn">decrease pages count</string>
     <string name="increase_pages_count_ingbtn">Increase pages count</string>
     <string name="book_pages">Book pages:</string>
+
+    <string-array name="book_types">
+        <item>Fantasy</item>
+        <item>Detective</item>
+        <item>Romantic novel</item>
+        <item>Classical prose</item>
+        <item>Sci-fi</item>
+        <item>Philosophy</item>
+        <item>Business</item>
+        <item>Health</item>
+        <item>Psychology</item>
+        <item>Biography</item>
+        <item>Historical</item>
+        <item>Science</item>
+        <item>Documentary</item>
+        <item>Poetry</item>
+    </string-array>
 </resources>

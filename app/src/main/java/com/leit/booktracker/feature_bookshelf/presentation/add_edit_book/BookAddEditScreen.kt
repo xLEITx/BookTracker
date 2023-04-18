@@ -38,7 +38,7 @@ import androidx.navigation.NavController
 import com.leit.booktracker.R
 import com.leit.booktracker.feature_bookshelf.presentation.add_edit_book.components.Spinner
 import com.leit.booktracker.feature_bookshelf.presentation.util.StatusOptions
-import com.leit.booktracker.feature_bookshelf.presentation.util.TypeOptions
+import com.leit.booktracker.feature_bookshelf.presentation.util.typeOptions
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -158,7 +158,7 @@ fun BookAddEditScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Spinner(
-                    options = TypeOptions.options,
+                    options = typeOptions().toList(),
                     chosenOption = type,
                     onOptionChange = { viewModel.onEvent(AddEditBookEvent.SelectedType(it)) },
                     label = stringResource(R.string.choose_type),
