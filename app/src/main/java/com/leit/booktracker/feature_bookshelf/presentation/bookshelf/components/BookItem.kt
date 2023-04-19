@@ -23,6 +23,7 @@ import com.leit.booktracker.feature_bookshelf.domain.util.BookStatus
 import com.leit.booktracker.ui.theme.BookTrackerTheme
 import com.leit.booktracker.ui.theme.blueA700
 import com.leit.booktracker.ui.theme.greenA700
+import com.leit.booktracker.ui.theme.orangeA700
 
 @Composable
 fun BookItem(
@@ -54,6 +55,11 @@ fun BookItem(
                         .size(48.dp)
                         .clip(CircleShape)
                         .border(width = 2.dp, color = blueA700, shape = CircleShape)
+
+                    BookStatus.FINISHED -> Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .border(width = 2.dp, color = orangeA700, shape = CircleShape)
 
                     else -> Modifier
                         .size(48.dp)

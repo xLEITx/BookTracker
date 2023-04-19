@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class ReadingSession(
-    @PrimaryKey val id:Int,
+    @PrimaryKey(autoGenerate = true) val id:Int? = null,
     val pages:Int,
     val timestamp:Long,
     val bookId:Int
