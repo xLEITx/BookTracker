@@ -6,6 +6,7 @@ object StatusOptions {
     val options = listOf(
         BookStatus.IN_PROGRESS,
         BookStatus.IN_WISHLIST,
-        BookStatus.ON_BOOKSHELF
+        BookStatus.ON_BOOKSHELF,
+        BookStatus.FINISHED
     )
 }
