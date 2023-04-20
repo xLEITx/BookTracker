@@ -9,8 +9,7 @@ data class Book(
     val author:String,
     val type:String,
     val status:String,
-    val pagesCount:Int,
-    val coverPath:String? = null
+    val pagesCount:Int
 )
 
 class InvalidBookException(message:String):Exception(message)
