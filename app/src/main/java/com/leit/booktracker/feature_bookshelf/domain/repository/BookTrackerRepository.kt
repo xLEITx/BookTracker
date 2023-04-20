@@ -2,6 +2,7 @@ package com.leit.booktracker.feature_bookshelf.domain.repository
 
 import com.leit.booktracker.feature_bookshelf.data.relations.BookWithReadingSessions
 import com.leit.booktracker.feature_bookshelf.domain.model.Book
+import com.leit.booktracker.feature_bookshelf.domain.model.Note
 import com.leit.booktracker.feature_bookshelf.domain.model.ReadingSession
 import kotlinx.coroutines.flow.Flow
 
@@ -18,6 +19,12 @@ interface BookTrackerRepository {
     suspend fun getBookWithReadingSessions(bookId:Int):List<BookWithReadingSessions>
 
     suspend fun insertReadingSession(readingSession: ReadingSession)
+
+    fun getNotes():Flow<List<Note>>
+
+    suspend fun getNoteById(id:Int):Note?
+
+    suspend fun insertNote(note: Note)
 
 
 }

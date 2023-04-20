@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.leit.booktracker.feature_bookshelf.data.relations.BookWithReadingSessions
 import com.leit.booktracker.feature_bookshelf.domain.model.Book
+import com.leit.booktracker.feature_bookshelf.domain.model.Note
 import com.leit.booktracker.feature_bookshelf.domain.model.ReadingSession
 import kotlinx.coroutines.flow.Flow
 
@@ -33,4 +34,12 @@ interface BookTrackerDao {
     @Insert
     suspend fun insertReadingSession(readingSessions: ReadingSession)
 
+    @Query("SELECT * FROM note")
+    fun getNotes():Flow<List<Note>>
+
+    @Query("SELECT * FROM note WHERE Id = :id ")
+    suspend fun getNoteById(id:Int):Note?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNote(note: Note)
 }
