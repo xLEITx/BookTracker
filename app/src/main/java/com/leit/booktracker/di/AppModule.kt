@@ -42,4 +42,16 @@ object AppModule {
             deleteBook = DeleteBook(repository)
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideDetailUseCases(repository: BookTrackerRepository):DetailUseCases{
+        return DetailUseCases(
+            getSingleBook = GetSingleBook(repository),
+            insertReadingSession = InsertReadingSession(repository),
+            getNotes = GetNotes(repository),
+            calculatePagesToDate = CalculatePagesToDate(),
+            getReadingSessionsByBookId = GetReadingSessionsByBookId(repository)
+        )
+    }
 }

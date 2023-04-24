@@ -5,4 +5,5 @@ data class DetailUseCases(
     val insertReadingSession: InsertReadingSession,
     val getNotes: GetNotes,
     val calculatePagesToDate: CalculatePagesToDate,
+    val getReadingSessionsByBookId: GetReadingSessionsByBookId
 )
