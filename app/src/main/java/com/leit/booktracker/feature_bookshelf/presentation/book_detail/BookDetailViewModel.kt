@@ -6,10 +6,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leit.booktracker.feature_bookshelf.domain.model.Book
+import com.leit.booktracker.feature_bookshelf.domain.model.Note
 import com.leit.booktracker.feature_bookshelf.domain.model.ReadingSession
 import com.leit.booktracker.feature_bookshelf.domain.use_case.DetailUseCases
+import com.leit.booktracker.feature_bookshelf.domain.util.NoteOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZonedDateTime
@@ -38,7 +43,10 @@ class BookDetailViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow
 
+    private var getNotesJob: Job? = null
 
+    private val _notes = mutableStateOf(listOf<Note>())
+    val notes:State<List<Note>> = _notes
 
     init {
         savedStateHandle.get<Int>("bookId")?.let {bookId ->
@@ -59,6 +67,10 @@ class BookDetailViewModel @Inject constructor(
                 //TODO: return to Bookshelf Screen
             }
         }
+    }
+
+    init {
+        getNotes(noteOrder = NoteOrder.Title)
     }
 
     fun onEvent(event: BookDetailEvent){
@@ -91,6 +103,15 @@ class BookDetailViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun getNotes(noteOrder: NoteOrder){
+        getNotesJob?.cancel()
+
+        getNotesJob = detailUseCases.getNotes(noteOrder)
+            .onEach {books ->
+                _notes.value = books
+            }.launchIn(viewModelScope)
     }
 
     sealed class UiEvent{
