@@ -43,6 +43,10 @@ class BookTrackerRepositoryImpl(
        return dao.getNoteById(id)
     }
 
+    override fun getNotesByBookId(bookId: Int): Flow<List<Note>> {
+        return dao.getNotesByBookId(bookId)
+    }
+
     override suspend fun insertNote(note: Note) {
         dao.insertNote(note)
     }

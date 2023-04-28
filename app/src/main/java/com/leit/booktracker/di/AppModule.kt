@@ -51,7 +51,8 @@ object AppModule {
             insertReadingSession = InsertReadingSession(repository),
             getNotes = GetNotes(repository),
             calculatePagesToDate = CalculatePagesToDate(),
-            getReadingSessionsByBookId = GetReadingSessionsByBookId(repository)
+            getReadingSessionsByBookId = GetReadingSessionsByBookId(repository),
+            getNotesByBookId = GetNotesByBookId(repository)
         )
     }
 }

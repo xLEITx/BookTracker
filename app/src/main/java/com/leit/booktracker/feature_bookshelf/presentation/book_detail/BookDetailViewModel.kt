@@ -70,7 +70,7 @@ class BookDetailViewModel @Inject constructor(
     }
 
     init {
-        getNotes(noteOrder = NoteOrder.Title)
+        getNotes(book.value.bookId!!, noteOrder = NoteOrder.Title)
     }
 
     fun onEvent(event: BookDetailEvent){
@@ -105,10 +105,10 @@ class BookDetailViewModel @Inject constructor(
         }
     }
 
-    private fun getNotes(noteOrder: NoteOrder){
+    private fun getNotes(bookId:Int ,noteOrder: NoteOrder){
         getNotesJob?.cancel()
 
-        getNotesJob = detailUseCases.getNotes(noteOrder)
+        getNotesJob = detailUseCases.getNotesByBookId(bookId, noteOrder)
             .onEach {books ->
                 _notes.value = books
             }.launchIn(viewModelScope)

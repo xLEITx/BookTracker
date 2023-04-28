@@ -24,6 +24,8 @@ interface BookTrackerRepository {
 
     suspend fun getNoteById(id:Int):Note?
 
+    fun getNotesByBookId(bookId: Int):Flow<List<Note>>
+
     suspend fun insertNote(note: Note)
 
 
