@@ -24,6 +24,8 @@
     <string name="decrease_pages_count_imgbtn">decrease pages count</string>
     <string name="increase_pages_count_ingbtn">Increase pages count</string>
     <string name="book_pages">Book pages:</string>
+    <string name="calculate">Calculate</string>
+    <string name="date_calc_section_title">Calculation of pages until a certain date:</string>
 
     <string-array name="book_types">
         <item>Fantasy</item>
