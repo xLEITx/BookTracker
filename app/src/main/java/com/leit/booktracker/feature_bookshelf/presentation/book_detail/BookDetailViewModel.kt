@@ -5,8 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.leit.booktracker.feature_bookshelf.domain.model.Book
-import com.leit.booktracker.feature_bookshelf.domain.model.Note
 import com.leit.booktracker.feature_bookshelf.domain.model.ReadingSession
 import com.leit.booktracker.feature_bookshelf.domain.use_case.DetailUseCases
 import com.leit.booktracker.feature_bookshelf.domain.util.NoteOrder
@@ -26,27 +24,13 @@ class BookDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ):ViewModel() {
 
-    private val _book = mutableStateOf(Book(null, "", "", "","",0))
-    val book: State<Book> = _book
-
-    private val _readPages = mutableStateOf(0)
-    val readPages:State<Int> = _readPages
-
-    private val _initialReadPages = mutableStateOf(0)
-    val initialReadPages = _initialReadPages
-
-    private val _chosenDate = mutableStateOf(LocalDate.now())
-    val chosenDate:State<LocalDate> = _chosenDate
-
-    private var currentBookId: Int? = null
+    private val _state = mutableStateOf(BookDetailState())
+    val state: State<BookDetailState> = _state
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow
 
     private var getNotesJob: Job? = null
-
-    private val _notes = mutableStateOf(listOf<Note>())
-    val notes:State<List<Note>> = _notes
 
     init {
         savedStateHandle.get<Int>("bookId")?.let {bookId ->
@@ -55,13 +39,19 @@ class BookDetailViewModel @Inject constructor(
 
                     detailUseCases.getReadingSessionsByBookId(bookId).forEach {bookWithReadingSessions ->
                         bookWithReadingSessions.readingSessions.forEach { readingSession ->
-                            _initialReadPages.value += readingSession.pages
+                            _state.value = state.value.copy(
+                               initialReadPages = state.value.initialReadPages + readingSession.pages
+                            )
                         }
-                        _book.value = bookWithReadingSessions.book
+                        _state.value = state.value.copy(
+                            book = bookWithReadingSessions.book
+                        )
                     }
 
                 }
-                _readPages.value = _initialReadPages.value
+                _state.value = state.value.copy(
+                    readPages = state.value.initialReadPages
+                )
             }
             else{
                 //TODO: return to Bookshelf Screen
@@ -70,21 +60,23 @@ class BookDetailViewModel @Inject constructor(
     }
 
     init {
-        getNotes(book.value.bookId!!, noteOrder = NoteOrder.Title)
+        getNotes(state.value.book.bookId!!, noteOrder = NoteOrder.Date)
     }
 
     fun onEvent(event: BookDetailEvent){
         when(event){
             is BookDetailEvent.ChangeReadPages ->{
-                _readPages.value = event.value
+                _state.value = state.value.copy(
+                    readPages = event.value
+                )
             }
             is BookDetailEvent.SaveReadingSession ->{
                 viewModelScope.launch {
                     detailUseCases.insertReadingSession(
                         ReadingSession(
-                            pages = readPages.value - initialReadPages.value,
+                            pages = state.value.readPages - state.value.initialReadPages,
                             timestamp = ZonedDateTime.now().toEpochSecond() * 1000,
-                            bookId = book.value.bookId!!
+                            bookId = state.value.book.bookId!!
                         )
                     )
                 }
@@ -96,7 +88,7 @@ class BookDetailViewModel @Inject constructor(
                             detailUseCases.calculatePagesToDate(
                                 currentDate = LocalDate.now(),
                                 chosenDate = event.chosenDate,
-                                pages = book.value.pagesCount - readPages.value
+                                pages = state.value.book.pagesCount - state.value.readPages
                             ).toString()
                         )
                     )
@@ -109,8 +101,11 @@ class BookDetailViewModel @Inject constructor(
         getNotesJob?.cancel()
 
         getNotesJob = detailUseCases.getNotesByBookId(bookId, noteOrder)
-            .onEach {books ->
-                _notes.value = books
+            .onEach {notes ->
+                _state.value = state.value.copy(
+                    notes = notes,
+                    noteOrder = noteOrder
+                )
             }.launchIn(viewModelScope)
     }
 
