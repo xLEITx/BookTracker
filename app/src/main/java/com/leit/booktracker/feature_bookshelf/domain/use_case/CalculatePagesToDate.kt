@@ -1,13 +1,13 @@
 package com.leit.booktracker.feature_bookshelf.domain.use_case
 
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class CalculatePagesToDate {
 
     operator fun invoke(
-        currentDate:LocalDate,
-        chosenDate:LocalDate,
+        currentDate: LocalDateTime,
+        chosenDate:LocalDateTime,
         pages:Int
     ):Int {
         val daysBetween = ChronoUnit.DAYS.between(currentDate,chosenDate).toInt()

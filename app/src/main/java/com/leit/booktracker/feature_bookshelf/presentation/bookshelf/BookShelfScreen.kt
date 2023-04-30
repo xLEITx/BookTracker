@@ -44,7 +44,7 @@ fun BookShelfScreen(
             FloatingActionButton(onClick = {
                 navController.navigate(Screen.BookAddEditScreen.route)
             }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.add_note_fbutton_desc))
+                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.add_book_fbutton_desc))
             }
         },
         snackbarHost = {
@@ -90,7 +90,7 @@ fun BookShelfScreen(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn(modifier = Modifier.fillMaxSize(), ){
+            LazyColumn(modifier = Modifier.fillMaxSize()){
                 items(state.books){ book ->
                     BookItem(
                         book = book,
@@ -112,7 +112,7 @@ fun BookShelfScreen(
                             }
                         },
                         modifier = Modifier.clickable {
-                            navController.navigate(Screen.BookAddEditScreen.route +"?bookId=${book.bookId}")
+                            navController.navigate(Screen.BookDetailScreen.route +"?bookId=${book.bookId}")
                         }
                     )
                     Spacer(Modifier.height(4.dp))

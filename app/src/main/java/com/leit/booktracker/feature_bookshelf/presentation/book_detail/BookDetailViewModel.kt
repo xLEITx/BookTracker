@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import javax.inject.Inject
 
@@ -52,6 +52,8 @@ class BookDetailViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     readPages = state.value.initialReadPages
                 )
+
+                getNotes(bookId = bookId, noteOrder = NoteOrder.Date)
             }
             else{
                 //TODO: return to Bookshelf Screen
@@ -60,7 +62,7 @@ class BookDetailViewModel @Inject constructor(
     }
 
     init {
-        getNotes(state.value.book.bookId!!, noteOrder = NoteOrder.Date)
+
     }
 
     fun onEvent(event: BookDetailEvent){
@@ -86,7 +88,7 @@ class BookDetailViewModel @Inject constructor(
                     eventFlow.emit(
                         UiEvent.ShowSnackBar(
                             detailUseCases.calculatePagesToDate(
-                                currentDate = LocalDate.now(),
+                                currentDate = LocalDateTime.now(),
                                 chosenDate = event.chosenDate,
                                 pages = state.value.book.pagesCount - state.value.readPages
                             ).toString()

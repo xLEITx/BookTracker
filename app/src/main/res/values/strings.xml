@@ -6,7 +6,7 @@
     <string name="type">Type</string>
     <string name="descending">Descending</string>
     <string name="ascending">Ascending</string>
-    <string name="add_note_fbutton_desc">Add note</string>
+    <string name="add_book_fbutton_desc">Add book</string>
     <string name="bookshelf_screen_title">Your books</string>
     <string name="sort">Sort</string>
     <string name="delete_book_iconbtn_desc">Delete book from list</string>
@@ -26,6 +26,7 @@
     <string name="book_pages">Book pages:</string>
     <string name="calculate">Calculate</string>
     <string name="date_calc_section_title">Calculation of pages until a certain date:</string>
+    <string name="edit_book">Edit book</string>
 
     <string-array name="book_types">
         <item>Fantasy</item>
