@@ -113,7 +113,7 @@ fun BookDetailScreen(
                 onIncrease = { viewModel.onEvent(BookDetailEvent.ChangeReadPages(state.readPages + 1)) },
                 isOnIncreaseEnabled = state.readPages < state.book.pagesCount,
                 onDecrease = { viewModel.onEvent(BookDetailEvent.ChangeReadPages(state.readPages - 1)) },
-                isOnDecreaseEnabled = state.readPages > state.initialReadPages,
+                isOnDecreaseEnabled = state.readPages > 0,
                 onSave = { viewModel.onEvent(BookDetailEvent.SaveReadingSession) }
             )
 
@@ -142,12 +142,12 @@ fun BookDetailScreen(
                     .padding(vertical = 8.dp)
             ) {
                 Text(
-                    text = "Your notes:",
+                    text = stringResource(R.string.your_notes),
                     style = MaterialTheme.typography.headlineLarge
                 )
 
                 IconButton(onClick = { /*TODO: on AddNote screen*/ }) {
-                    Icon(imageVector = Icons.Default.Note, contentDescription = "Add note")
+                    Icon(imageVector = Icons.Default.Note, contentDescription = stringResource(R.string.add_note))
                 }
 
             }

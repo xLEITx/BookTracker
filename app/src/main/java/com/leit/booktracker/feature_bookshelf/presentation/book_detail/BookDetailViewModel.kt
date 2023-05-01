@@ -47,11 +47,12 @@ class BookDetailViewModel @Inject constructor(
                             book = bookWithReadingSessions.book
                         )
                     }
+                    _state.value = state.value.copy(
+                        readPages = state.value.initialReadPages
+                    )
 
                 }
-                _state.value = state.value.copy(
-                    readPages = state.value.initialReadPages
-                )
+
 
                 getNotes(bookId = bookId, noteOrder = NoteOrder.Date)
             }
@@ -81,6 +82,7 @@ class BookDetailViewModel @Inject constructor(
                             bookId = state.value.book.bookId!!
                         )
                     )
+                    eventFlow.emit(UiEvent.ShowSnackBar("Saved"))
                 }
             }
             is BookDetailEvent.CalculatePages ->{

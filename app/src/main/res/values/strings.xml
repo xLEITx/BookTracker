@@ -27,6 +27,8 @@
     <string name="calculate">Calculate</string>
     <string name="date_calc_section_title">Calculation of pages until a certain date:</string>
     <string name="edit_book">Edit book</string>
+    <string name="your_notes">Your notes:</string>
+    <string name="add_note">Add note</string>
 
     <string-array name="book_types">
         <item>Fantasy</item>
