@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 fun BookShelfScreen(
     navController: NavController,
     viewModel: BookShelfViewModel = hiltViewModel()
-){
+) {
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -38,24 +38,27 @@ fun BookShelfScreen(
         stringResource(R.string.book_deleted_snackbar_msg),
         stringResource(R.string.undo)
     )
-    
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 navController.navigate(Screen.BookAddEditScreen.route)
             }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.add_book_fbutton_desc))
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.add_book_fbutton_desc)
+                )
             }
         },
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState){data ->
+            SnackbarHost(hostState = snackbarHostState) { data ->
                 Snackbar(
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     actionColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
-                
+
             }
         }
     ) {
@@ -66,11 +69,18 @@ fun BookShelfScreen(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
-                Text(text = stringResource(R.string.bookshelf_screen_title), style = MaterialTheme.typography.headlineLarge)
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(R.string.bookshelf_screen_title),
+                    style = MaterialTheme.typography.headlineLarge
+                )
                 IconButton(onClick = { viewModel.onEvent(BookShelfEvent.ToggleOrderSection) }) {
-                    Icon(imageVector = Icons.Default.Sort, contentDescription = stringResource(R.string.sort))
+                    Icon(
+                        imageVector = Icons.Default.Sort,
+                        contentDescription = stringResource(R.string.sort)
+                    )
                 }
             }
 
@@ -90,12 +100,17 @@ fun BookShelfScreen(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn(modifier = Modifier.fillMaxSize()){
-                items(state.books){ book ->
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(state.books) { book ->
                     BookItem(
                         book = book,
                         onAddButtonClick = {
-                            viewModel.onEvent(BookShelfEvent.ChangeStatus(book = book, status = BookStatus.ON_BOOKSHELF))
+                            viewModel.onEvent(
+                                BookShelfEvent.ChangeStatus(
+                                    book = book,
+                                    status = BookStatus.ON_BOOKSHELF
+                                )
+                            )
                         },
                         onDeleteButtonClick = {
                             viewModel.onEvent(BookShelfEvent.DeleteBook(book))
@@ -106,17 +121,17 @@ fun BookShelfScreen(
                                     duration = SnackbarDuration.Long
                                 )
 
-                                if(result == SnackbarResult.ActionPerformed){
+                                if (result == SnackbarResult.ActionPerformed) {
                                     viewModel.onEvent(BookShelfEvent.RestoreBook)
                                 }
                             }
                         },
                         modifier = Modifier.clickable {
-                            navController.navigate(Screen.BookDetailScreen.route +"?bookId=${book.bookId}")
+                            navController.navigate(Screen.BookDetailScreen.route + "?bookId=${book.bookId}")
                         }
                     )
                     Spacer(Modifier.height(4.dp))
-                    
+
                 }
             }
 

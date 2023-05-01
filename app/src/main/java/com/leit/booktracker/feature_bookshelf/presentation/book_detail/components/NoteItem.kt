@@ -3,7 +3,10 @@ package com.leit.booktracker.feature_bookshelf.presentation.book_detail.componen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -20,40 +23,48 @@ import com.leit.booktracker.ui.theme.BookTrackerTheme
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun NoteItem(
     note: Note,
     modifier: Modifier = Modifier
-){
+) {
     Surface(
-        color = MaterialTheme.colorScheme.primaryContainer ,
+        color = MaterialTheme.colorScheme.surfaceVariant,
         shape = RoundedCornerShape(8.dp),
-        modifier = modifier.padding(16.dp)
+        modifier = modifier
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
         ) {
             Column(Modifier.weight(2f)) {
                 Text(
-                    text = note.title,
-                    style = MaterialTheme.typography.labelMedium
+                    text = note.title.uppercase(),
+                    style = MaterialTheme.typography.labelLarge
                 )
-                Divider(thickness = 0.5.dp , color = MaterialTheme.colorScheme.onPrimaryContainer)
+                Divider(thickness = 0.5.dp, color = MaterialTheme.colorScheme.onPrimaryContainer)
                 Text(
-                    text = note.content.take(30) + "...",
+                    text = note.content.take(90) + "...",
                     style = MaterialTheme.typography.labelSmall
                 )
-                
+
             }
-            //TODO: Normal date/time format
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = Instant.ofEpochMilli(note.timestamp).atZone(ZoneId.systemDefault()).toLocalDateTime().toString(),
-                textAlign = TextAlign.End,
+                text = Instant.ofEpochMilli(note.timestamp)
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDateTime()
+                    .format(
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                    ),
+                textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier.weight(3f)
+                modifier = Modifier.weight(1f)
             )
         }
     }
@@ -61,13 +72,15 @@ fun NoteItem(
 
 @Preview(showBackground = true, widthDp = 320)
 @Composable
-fun NoteItemPreview(){
+fun NoteItemPreview() {
     BookTrackerTheme {
-        NoteItem(note = Note(
-            title = "Hello",
-            content = "Absolutely random words apple lab-rat sunday hello it`s me MARIO!!! or WaRiO? ",
-            timestamp = ZonedDateTime.now().toEpochSecond() * 1000,
-            bookId = 5
-        ))
+        NoteItem(
+            note = Note(
+                title = "Hello",
+                content = "Absolutely random words apple lab-rat sunday hello it`s me MARIO!!! or WaRiO? ",
+                timestamp = ZonedDateTime.now().toEpochSecond() * 1000,
+                bookId = 5
+            )
+        )
     }
 }

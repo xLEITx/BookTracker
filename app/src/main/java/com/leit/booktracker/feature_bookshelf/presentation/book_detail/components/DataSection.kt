@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,42 +23,38 @@ import com.leit.booktracker.ui.theme.BookTrackerTheme
 fun DataSection(
     book: Book,
     modifier: Modifier = Modifier
-){
-    Surface(
-        color = MaterialTheme.colorScheme.primaryContainer,
-        shape = RoundedCornerShape(5.dp),
+) {
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxWidth()
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
+        Text(
+            text = book.title,
+            style = MaterialTheme.typography.headlineLarge,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text =  book.title,
-                style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = stringResource(id = R.string.author) + ": ${book.author}")
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(text = stringResource(id = R.string.type) + ": ${book.type}")
-            }
-
-            Text(
-                text = stringResource(id = R.string.status) + ": ${book.status}",
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+            Text(text = stringResource(id = R.string.author) + ": ${book.author}")
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(text = stringResource(id = R.string.type) + ": ${book.type}")
         }
+
+        Text(
+            text = stringResource(id = R.string.status) + ": ${book.status}",
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
     }
+
 }
 
 @Preview
 @Composable
-fun DataSectionPreview(){
+fun DataSectionPreview() {
     BookTrackerTheme {
         DataSection(
             book = Book(
