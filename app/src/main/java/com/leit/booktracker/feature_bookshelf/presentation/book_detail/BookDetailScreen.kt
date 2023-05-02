@@ -66,6 +66,9 @@ fun BookDetailScreen(
                         )
                     }
                 }
+                is BookDetailViewModel.UiEvent.NavigateUp ->{
+                    navController.navigateUp()
+                }
             }
 
         }

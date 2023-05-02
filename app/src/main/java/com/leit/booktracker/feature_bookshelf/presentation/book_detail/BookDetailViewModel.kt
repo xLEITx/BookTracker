@@ -1,5 +1,6 @@
 package com.leit.booktracker.feature_bookshelf.presentation.book_detail
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -11,7 +12,9 @@ import com.leit.booktracker.feature_bookshelf.domain.util.NoteOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
@@ -33,9 +36,8 @@ class BookDetailViewModel @Inject constructor(
 
     init {
         savedStateHandle.get<Int>("bookId")?.let { bookId ->
-            if (bookId != -1) {
-                viewModelScope.launch {
-
+            viewModelScope.launch {
+                if (bookId != -1) {
                     detailUseCases.getReadingSessionsByBookId(bookId)
                         .forEach { bookWithReadingSessions ->
                             bookWithReadingSessions.readingSessions.forEach { readingSession ->
@@ -51,13 +53,17 @@ class BookDetailViewModel @Inject constructor(
                         readPages = state.value.initialReadPages
                     )
 
+                    getNotes(bookId = bookId, noteOrder = NoteOrder.Date)
+                } else {
+                    eventFlow.subscriptionCount.map {count -> count > 0}
+                        .distinctUntilChanged()
+                        .onEach { isActive ->
+                            if (isActive) _eventFlow.emit(UiEvent.NavigateUp)
+                        }.launchIn(viewModelScope)
                 }
-
-
-                getNotes(bookId = bookId, noteOrder = NoteOrder.Date)
-            } else {
-                //TODO: return to Bookshelf Screen
             }
+
+
         }
     }
 
@@ -80,6 +86,7 @@ class BookDetailViewModel @Inject constructor(
                         )
                     )
                     eventFlow.emit(UiEvent.ShowSnackBar("Saved"))
+                    Log.d("DETAIL_VM", _eventFlow.subscriptionCount.value.toString())
                 }
             }
 
@@ -111,6 +118,7 @@ class BookDetailViewModel @Inject constructor(
 
     sealed class UiEvent {
         data class ShowSnackBar(val message: String) : UiEvent()
+        object NavigateUp : UiEvent()
     }
 
 }
