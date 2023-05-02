@@ -18,7 +18,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesBookTrackerDatabase(app:Application):BookTrackerDatabase{
+    fun providesBookTrackerDatabase(app: Application): BookTrackerDatabase {
         return Room.databaseBuilder(
             app,
             BookTrackerDatabase::class.java,
@@ -28,13 +28,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBookTrackerRepository(db:BookTrackerDatabase):BookTrackerRepository{
+    fun provideBookTrackerRepository(db: BookTrackerDatabase): BookTrackerRepository {
         return BookTrackerRepositoryImpl(db.bookTrackerDao)
     }
 
     @Provides
     @Singleton
-    fun provideBookShelfUseCases(repository: BookTrackerRepository):BookShelfUseCases{
+    fun provideBookShelfUseCases(repository: BookTrackerRepository): BookShelfUseCases {
         return BookShelfUseCases(
             getBooks = GetBooks(repository),
             getSingleBook = GetSingleBook(repository),
@@ -45,12 +45,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDetailUseCases(repository: BookTrackerRepository):DetailUseCases{
+    fun provideDetailUseCases(repository: BookTrackerRepository): DetailUseCases {
         return DetailUseCases(
             getSingleBook = GetSingleBook(repository),
             insertReadingSession = InsertReadingSession(repository),
             getNotes = GetNotes(repository),
-            calculatePagesToDate = CalculatePagesToDate(),
             getReadingSessionsByBookId = GetReadingSessionsByBookId(repository),
             getNotesByBookId = GetNotesByBookId(repository)
         )

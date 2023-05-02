@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import javax.inject.Inject
 
@@ -84,19 +83,6 @@ class BookDetailViewModel @Inject constructor(
                 }
             }
 
-            is BookDetailEvent.CalculatePages -> {
-                viewModelScope.launch {
-                    eventFlow.emit(
-                        UiEvent.ShowSnackBar(
-                            detailUseCases.calculatePagesToDate(
-                                currentDate = LocalDateTime.now(),
-                                chosenDate = event.chosenDate,
-                                pages = state.value.book.pagesCount - state.value.readPages
-                            ).toString()
-                        )
-                    )
-                }
-            }
         }
     }
 

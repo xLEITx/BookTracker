@@ -123,22 +123,6 @@ fun BookDetailScreen(
                 onSave = { viewModel.onEvent(BookDetailEvent.SaveReadingSession) }
             )
 
-//            DateCalcSection(
-//                state = dateState,
-//                onCalculate = {
-//                    if(dateState.selectedDateMillis != null){
-//                        viewModel.onEvent(BookDetailEvent.CalculatePages(
-//                            LocalDateTime.ofInstant(
-//                                Instant.ofEpochMilli(dateState.selectedDateMillis!!),
-//                                TimeZone.getDefault().toZoneId())
-//                        ))
-//                    }else{
-//                        scope.launch {
-//                            viewModel.eventFlow.emit(BookDetailViewModel.UiEvent.ShowSnackBar("Date not picked"))
-//                        }
-//                    }
-//                }
-//            )
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
