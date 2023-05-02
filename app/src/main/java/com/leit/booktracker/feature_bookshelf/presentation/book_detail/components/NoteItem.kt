@@ -1,12 +1,10 @@
 package com.leit.booktracker.feature_bookshelf.presentation.book_detail.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -35,26 +33,24 @@ fun NoteItem(
         shape = RoundedCornerShape(8.dp),
         modifier = modifier
     ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+        Column(
+            horizontalAlignment = Alignment.Start,
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxWidth()
         ) {
-            Column(Modifier.weight(2f)) {
-                Text(
-                    text = note.title.uppercase(),
-                    style = MaterialTheme.typography.labelLarge
-                )
-                Divider(thickness = 0.5.dp, color = MaterialTheme.colorScheme.onPrimaryContainer)
-                Text(
-                    text = note.content.take(90) + "...",
-                    style = MaterialTheme.typography.labelSmall
-                )
 
-            }
-            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = note.title,
+                style = MaterialTheme.typography.headlineSmall
+            )
+            Divider(thickness = 0.5.dp, color = MaterialTheme.colorScheme.onPrimaryContainer)
+            Text(
+                text = note.content.take(150) + "...",
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = Instant.ofEpochMilli(note.timestamp)
                     .atZone(ZoneId.systemDefault())
@@ -63,8 +59,8 @@ fun NoteItem(
                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                     ),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier.weight(1f)
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier
             )
         }
     }
@@ -77,7 +73,10 @@ fun NoteItemPreview() {
         NoteItem(
             note = Note(
                 title = "Hello",
-                content = "Absolutely random words apple lab-rat sunday hello it`s me MARIO!!! or WaRiO? ",
+                content = "Absolutely random words apple lab-rat sunday hello it`s me MARIO!!! or WaRiO?" +
+                        "Absolutely random words apple lab-rat sunday hello it`s me MARIO!!! or WaRiO?" +
+                        "Absolutely random words apple lab-rat sunday hello it`s me MARIO!!! or WaRiO?" +
+                        "Absolutely random words apple lab-rat sunday hello it`s me MARIO!!! or WaRiO?",
                 timestamp = ZonedDateTime.now().toEpochSecond() * 1000,
                 bookId = 5
             )
