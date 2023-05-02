@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.leit.booktracker.feature_bookshelf.domain.model.ReadingSession
 import com.leit.booktracker.feature_bookshelf.domain.use_case.DetailUseCases
 import com.leit.booktracker.feature_bookshelf.domain.util.NoteOrder
+import com.leit.booktracker.feature_bookshelf.presentation.util.NotesListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,6 +29,9 @@ class BookDetailViewModel @Inject constructor(
 
     private val _state = mutableStateOf(BookDetailState())
     val state: State<BookDetailState> = _state
+
+    private val _notes = mutableStateOf(NotesListState())
+    val notes = _notes
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow
@@ -109,9 +113,9 @@ class BookDetailViewModel @Inject constructor(
 
         getNotesJob = detailUseCases.getNotesByBookId(bookId, noteOrder)
             .onEach { notes ->
-                _state.value = state.value.copy(
+                _notes.value = NotesListState(
                     notes = notes,
-                    noteOrder = noteOrder
+                    order = noteOrder
                 )
             }.launchIn(viewModelScope)
     }

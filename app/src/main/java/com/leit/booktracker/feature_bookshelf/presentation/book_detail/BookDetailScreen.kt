@@ -149,7 +149,7 @@ fun BookDetailScreen(
             }
 
             LazyColumn(Modifier.fillMaxSize()) {
-                items(state.notes) { note ->
+                items(viewModel.notes.value.notes) { note ->
                     NoteItem(
                         note = note,
                         modifier = Modifier
