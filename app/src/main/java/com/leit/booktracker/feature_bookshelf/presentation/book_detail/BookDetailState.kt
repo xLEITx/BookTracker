@@ -6,10 +6,10 @@ import com.leit.booktracker.feature_bookshelf.domain.util.NoteOrder
 import java.time.LocalDate
 
 data class BookDetailState(
-    val book:Book = Book(title = "", author = "", type = "", status = "", pagesCount = 0),
-    val readPages:Int = 0,
-    val initialReadPages:Int = 0,
+    val book: Book = Book(title = "", author = "", type = "", status = "", pagesCount = 0),
+    val readPages: Int = 0,
+    val initialReadPages: Int = 0,
     val chosenDate: LocalDate = LocalDate.now().plusDays(7),
-    val notes:List<Note> = emptyList(),
+    val notes: List<Note> = emptyList(),
     val noteOrder: NoteOrder = NoteOrder.Date
 )

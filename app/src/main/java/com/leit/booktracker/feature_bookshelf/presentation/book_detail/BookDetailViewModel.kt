@@ -20,9 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookDetailViewModel @Inject constructor(
-    private val detailUseCases:DetailUseCases,
+    private val detailUseCases: DetailUseCases,
     savedStateHandle: SavedStateHandle
-):ViewModel() {
+) : ViewModel() {
 
     private val _state = mutableStateOf(BookDetailState())
     val state: State<BookDetailState> = _state
@@ -33,20 +33,21 @@ class BookDetailViewModel @Inject constructor(
     private var getNotesJob: Job? = null
 
     init {
-        savedStateHandle.get<Int>("bookId")?.let {bookId ->
-            if (bookId != -1){
+        savedStateHandle.get<Int>("bookId")?.let { bookId ->
+            if (bookId != -1) {
                 viewModelScope.launch {
 
-                    detailUseCases.getReadingSessionsByBookId(bookId).forEach {bookWithReadingSessions ->
-                        bookWithReadingSessions.readingSessions.forEach { readingSession ->
+                    detailUseCases.getReadingSessionsByBookId(bookId)
+                        .forEach { bookWithReadingSessions ->
+                            bookWithReadingSessions.readingSessions.forEach { readingSession ->
+                                _state.value = state.value.copy(
+                                    initialReadPages = state.value.initialReadPages + readingSession.pages
+                                )
+                            }
                             _state.value = state.value.copy(
-                               initialReadPages = state.value.initialReadPages + readingSession.pages
+                                book = bookWithReadingSessions.book
                             )
                         }
-                        _state.value = state.value.copy(
-                            book = bookWithReadingSessions.book
-                        )
-                    }
                     _state.value = state.value.copy(
                         readPages = state.value.initialReadPages
                     )
@@ -55,25 +56,22 @@ class BookDetailViewModel @Inject constructor(
 
 
                 getNotes(bookId = bookId, noteOrder = NoteOrder.Date)
-            }
-            else{
+            } else {
                 //TODO: return to Bookshelf Screen
             }
         }
     }
 
-    init {
 
-    }
-
-    fun onEvent(event: BookDetailEvent){
-        when(event){
-            is BookDetailEvent.ChangeReadPages ->{
+    fun onEvent(event: BookDetailEvent) {
+        when (event) {
+            is BookDetailEvent.ChangeReadPages -> {
                 _state.value = state.value.copy(
                     readPages = event.value
                 )
             }
-            is BookDetailEvent.SaveReadingSession ->{
+
+            is BookDetailEvent.SaveReadingSession -> {
                 viewModelScope.launch {
                     detailUseCases.insertReadingSession(
                         ReadingSession(
@@ -85,7 +83,8 @@ class BookDetailViewModel @Inject constructor(
                     eventFlow.emit(UiEvent.ShowSnackBar("Saved"))
                 }
             }
-            is BookDetailEvent.CalculatePages ->{
+
+            is BookDetailEvent.CalculatePages -> {
                 viewModelScope.launch {
                     eventFlow.emit(
                         UiEvent.ShowSnackBar(
@@ -101,11 +100,22 @@ class BookDetailViewModel @Inject constructor(
         }
     }
 
-    private fun getNotes(bookId:Int ,noteOrder: NoteOrder){
+
+    fun getBook(bookId: Int?) {
+        if (bookId != null && bookId != -1) {
+            viewModelScope.launch {
+                _state.value = state.value.copy(
+                    book = detailUseCases.getSingleBook(bookId)!!
+                )
+            }
+        }
+    }
+
+    private fun getNotes(bookId: Int, noteOrder: NoteOrder) {
         getNotesJob?.cancel()
 
         getNotesJob = detailUseCases.getNotesByBookId(bookId, noteOrder)
-            .onEach {notes ->
+            .onEach { notes ->
                 _state.value = state.value.copy(
                     notes = notes,
                     noteOrder = noteOrder
@@ -113,8 +123,8 @@ class BookDetailViewModel @Inject constructor(
             }.launchIn(viewModelScope)
     }
 
-    sealed class UiEvent{
-        data class ShowSnackBar(val message:String):UiEvent()
+    sealed class UiEvent {
+        data class ShowSnackBar(val message: String) : UiEvent()
     }
 
 }

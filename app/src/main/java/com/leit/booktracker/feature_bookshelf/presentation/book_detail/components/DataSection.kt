@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,8 +23,13 @@ import com.leit.booktracker.ui.theme.BookTrackerTheme
 @Composable
 fun DataSection(
     book: Book,
+    sideEffect: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    SideEffect {
+        sideEffect()
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -63,7 +69,8 @@ fun DataSectionPreview() {
                 type = "Fantasy",
                 status = "In progress",
                 pagesCount = 5
-            )
+            ),
+            sideEffect = {}
         )
     }
 }

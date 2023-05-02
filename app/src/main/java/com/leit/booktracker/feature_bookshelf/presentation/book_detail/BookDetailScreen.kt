@@ -71,6 +71,7 @@ fun BookDetailScreen(
         }
     }
 
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -103,7 +104,12 @@ fun BookDetailScreen(
                 .padding(16.dp)
         ) {
 
-            DataSection(book = state.book)
+            DataSection(
+                book = state.book,
+                sideEffect = {
+                    viewModel.getBook(viewModel.state.value.book.bookId)
+                }
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -147,7 +153,10 @@ fun BookDetailScreen(
                 )
 
                 IconButton(onClick = { /*TODO: on AddNote screen*/ }) {
-                    Icon(imageVector = Icons.Default.Note, contentDescription = stringResource(R.string.add_note))
+                    Icon(
+                        imageVector = Icons.Default.Note,
+                        contentDescription = stringResource(R.string.add_note)
+                    )
                 }
 
             }
