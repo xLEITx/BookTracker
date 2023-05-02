@@ -13,7 +13,7 @@ class GetNotesByBookId(
         return repository.getNotesByBookId(bookId).map { notes ->
             when(noteOrder){
                 is NoteOrder.Title -> notes.sortedBy { it.title.lowercase() }
-                is NoteOrder.Date -> notes.sortedBy { it.timestamp }
+                is NoteOrder.Date -> notes.sortedByDescending { it.timestamp }
             }
         }
     }

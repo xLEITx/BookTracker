@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Note
+import androidx.compose.material.icons.filled.Title
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,8 +28,11 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -35,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.leit.booktracker.R
+import com.leit.booktracker.feature_bookshelf.domain.util.NoteOrder
 import com.leit.booktracker.feature_bookshelf.presentation.book_detail.components.DataSection
 import com.leit.booktracker.feature_bookshelf.presentation.book_detail.components.NoteItem
 import com.leit.booktracker.feature_bookshelf.presentation.book_detail.components.PagesSection
@@ -52,6 +58,9 @@ fun BookDetailScreen(
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    var isSortedByDate by remember {
+        mutableStateOf(true)
+    }
 
 
     LaunchedEffect(key1 = true) {
@@ -139,11 +148,36 @@ fun BookDetailScreen(
                     style = MaterialTheme.typography.headlineLarge
                 )
 
-                IconButton(onClick = { /*TODO: on AddNote screen*/ }) {
-                    Icon(
-                        imageVector = Icons.Default.Note,
-                        contentDescription = stringResource(R.string.add_note)
-                    )
+                Row {
+                    IconButton(onClick = {
+                        if (isSortedByDate){
+                            viewModel.onEvent(BookDetailEvent.ChangeNoteOrder(NoteOrder.Title))
+
+                        }else{
+                            viewModel.onEvent(BookDetailEvent.ChangeNoteOrder(NoteOrder.Date))
+                        }
+                        isSortedByDate = !isSortedByDate
+                    }) {
+                        if (isSortedByDate){
+                            Icon(
+                                imageVector = Icons.Default.CalendarMonth,
+                                contentDescription = stringResource(R.string.change_sort_type)
+                            )
+                        }else{
+                            Icon(
+                                imageVector =  Icons.Default.Title,
+                                contentDescription = stringResource(R.string.change_sort_type)
+                            )
+                        }
+
+                    }
+
+                    IconButton(onClick = { /*TODO: on AddNote screen*/ }) {
+                        Icon(
+                            imageVector = Icons.Default.Note,
+                            contentDescription = stringResource(R.string.add_note)
+                        )
+                    }
                 }
 
             }

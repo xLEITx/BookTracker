@@ -94,6 +94,10 @@ class BookDetailViewModel @Inject constructor(
                 }
             }
 
+            is BookDetailEvent.ChangeNoteOrder ->{
+                state.value.book.bookId?.let { getNotes(it, event.value) }
+            }
+
         }
     }
 

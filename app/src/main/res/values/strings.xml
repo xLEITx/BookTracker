@@ -29,6 +29,7 @@
     <string name="edit_book">Edit book</string>
     <string name="your_notes">Your notes:</string>
     <string name="add_note">Add note</string>
+    <string name="change_sort_type">Change sort type</string>
 
     <string-array name="book_types">
         <item>Fantasy</item>
