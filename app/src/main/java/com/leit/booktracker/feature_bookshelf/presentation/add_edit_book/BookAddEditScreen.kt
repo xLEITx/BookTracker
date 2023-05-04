@@ -45,7 +45,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun BookAddEditScreen(
     navController: NavController,
-    viewModel: BookAddEditViewModel = hiltViewModel()
+    viewModel: AddEditBookViewModel = hiltViewModel()
 ) {
 
     val title = viewModel.bookTitle.value
@@ -60,7 +60,7 @@ fun BookAddEditScreen(
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
-                is BookAddEditViewModel.UiEvent.ShowSnackBar -> {
+                is AddEditBookViewModel.UiEvent.ShowSnackBar -> {
                     scope.launch {
                         snackbarHostState.showSnackbar(
                             message = event.message,
@@ -69,7 +69,7 @@ fun BookAddEditScreen(
                     }
                 }
 
-                is BookAddEditViewModel.UiEvent.SaveBook -> {
+                is AddEditBookViewModel.UiEvent.SaveBook -> {
                     navController.navigateUp()
                 }
             }

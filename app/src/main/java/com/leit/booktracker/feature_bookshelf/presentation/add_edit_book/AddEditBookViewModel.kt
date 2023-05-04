@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BookAddEditViewModel @Inject constructor(
+class AddEditBookViewModel @Inject constructor(
     private val bookShelfUseCases: BookShelfUseCases,
     @ApplicationContext context: Context,
     savedStateHandle: SavedStateHandle

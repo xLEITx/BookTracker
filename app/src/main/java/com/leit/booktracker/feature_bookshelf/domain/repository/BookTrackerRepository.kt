@@ -22,11 +22,12 @@ interface BookTrackerRepository {
 
     fun getNotes():Flow<List<Note>>
 
+    fun getNotesByBookId(bookId: Int):Flow<List<Note>>
+
     suspend fun getNoteById(id:Int):Note?
 
-    fun getNotesByBookId(bookId: Int):Flow<List<Note>>
 
     suspend fun insertNote(note: Note)
 
-
+    suspend fun deleteNote(note: Note)
 }

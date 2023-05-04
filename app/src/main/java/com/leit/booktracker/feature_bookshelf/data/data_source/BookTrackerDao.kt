@@ -37,12 +37,15 @@ interface BookTrackerDao {
     @Query("SELECT * FROM note")
     fun getNotes():Flow<List<Note>>
 
-    @Query("SELECT * FROM note WHERE Id = :id ")
-    suspend fun getNoteById(id:Int):Note?
-
     @Query("SELECT * FROM note WHERE BookId = :bookId ")
     fun getNotesByBookId(bookId: Int):Flow<List<Note>>
 
+    @Query("SELECT * FROM note WHERE Id = :id ")
+    suspend fun getNoteById(id:Int):Note?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(note: Note)
+
+    @Delete
+    suspend fun deleteNote(note: Note)
 }

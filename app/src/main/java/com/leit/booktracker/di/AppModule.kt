@@ -54,4 +54,14 @@ object AppModule {
             getNotesByBookId = GetNotesByBookId(repository)
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideAddEditNoteUseCases(repository: BookTrackerRepository):AddEditNoteUseCases{
+        return AddEditNoteUseCases(
+            getSingleNote = GetSingleNote(repository),
+            insertNote = InsertNote(repository),
+            deleteNote = DeleteNote(repository)
+        )
+    }
 }
