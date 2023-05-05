@@ -30,6 +30,8 @@
     <string name="your_notes">Your notes:</string>
     <string name="add_note">Add note</string>
     <string name="change_sort_type">Change sort type</string>
+    <string name="write_your_note_hint">Write your note</string>
+    <string name="title_can_t_be_empty">Title can`t be empty</string>
 
     <string-array name="book_types">
         <item>Fantasy</item>

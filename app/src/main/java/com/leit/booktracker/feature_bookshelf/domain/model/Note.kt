@@ -11,3 +11,5 @@ data class Note(
     val timestamp:Long,
     val bookId:Int
 )
+
+class InvalidNoteException(message:String):Exception(message)

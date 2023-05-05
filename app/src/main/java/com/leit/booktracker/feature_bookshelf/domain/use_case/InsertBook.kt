@@ -9,6 +9,7 @@ class InsertBook(
 ) {
     @Throws(InvalidBookException::class)
     suspend operator fun invoke(book: Book){
+        //TODO: Find out a way to use string resources.
         if (book.title.isBlank()){
             throw InvalidBookException("The title can`t be empty")
         }

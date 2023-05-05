@@ -10,7 +10,7 @@ import com.leit.booktracker.R
 import com.leit.booktracker.feature_bookshelf.domain.model.Book
 import com.leit.booktracker.feature_bookshelf.domain.model.InvalidBookException
 import com.leit.booktracker.feature_bookshelf.domain.use_case.BookShelfUseCases
-import com.leit.booktracker.feature_bookshelf.presentation.util.BookTextFieldState
+import com.leit.booktracker.feature_bookshelf.presentation.util.TextFieldState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -25,18 +25,18 @@ class AddEditBookViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _bookTitle = mutableStateOf(
-        BookTextFieldState(
+        TextFieldState(
             hint = context.getString(R.string.enter_title_hint)
         )
     )
-    val bookTitle: State<BookTextFieldState> = _bookTitle
+    val bookTitle: State<TextFieldState> = _bookTitle
 
     private val _bookAuthor = mutableStateOf(
-        BookTextFieldState(
+        TextFieldState(
             hint = context.getString(R.string.enter_author_hint)
         )
     )
-    val bookAuthor: State<BookTextFieldState> = _bookAuthor
+    val bookAuthor: State<TextFieldState> = _bookAuthor
 
     private val _bookType = mutableStateOf("")
     val bookType: State<String> = _bookType
@@ -132,7 +132,7 @@ class AddEditBookViewModel @Inject constructor(
                     } catch (e: InvalidBookException) {
                         _eventFlow.emit(
                             UiEvent.ShowSnackBar(
-                                e.message ?: "Couldn't save note"
+                                e.message ?: "Couldn't save book"
                             )
                         )
 

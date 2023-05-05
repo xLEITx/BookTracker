@@ -48,4 +48,7 @@ interface BookTrackerDao {
 
     @Delete
     suspend fun deleteNote(note: Note)
+
+    @Query("DELETE FROM note WHERE Id = :id")
+    suspend fun deleteNoteById(id: Int)
 }

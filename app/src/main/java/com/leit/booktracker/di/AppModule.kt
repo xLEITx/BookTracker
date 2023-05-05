@@ -61,7 +61,8 @@ object AppModule {
         return AddEditNoteUseCases(
             getSingleNote = GetSingleNote(repository),
             insertNote = InsertNote(repository),
-            deleteNote = DeleteNote(repository)
+            deleteNote = DeleteNote(repository),
+            deleteNoteById = DeleteNoteById(repository)
         )
     }
 }

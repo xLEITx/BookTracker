@@ -54,4 +54,8 @@ class BookTrackerRepositoryImpl(
     override suspend fun deleteNote(note: Note) {
         dao.deleteNote(note)
     }
+
+    override suspend fun deleteNoteById(id: Int) {
+        dao.deleteNoteById(id)
+    }
 }

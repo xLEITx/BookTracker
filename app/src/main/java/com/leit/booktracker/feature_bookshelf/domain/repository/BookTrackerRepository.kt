@@ -30,4 +30,6 @@ interface BookTrackerRepository {
     suspend fun insertNote(note: Note)
 
     suspend fun deleteNote(note: Note)
+
+    suspend fun deleteNoteById(id: Int)
 }
