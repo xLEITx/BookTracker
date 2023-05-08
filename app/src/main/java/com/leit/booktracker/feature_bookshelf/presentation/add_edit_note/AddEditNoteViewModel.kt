@@ -83,7 +83,7 @@ class AddEditNoteViewModel @Inject constructor(
         when (event) {
             is AddEditNoteEvent.EnteredTitle -> {
                 _title.value = title.value.copy(
-                    text = event.value
+                    text = event.value.take(20)
                 )
             }
 
