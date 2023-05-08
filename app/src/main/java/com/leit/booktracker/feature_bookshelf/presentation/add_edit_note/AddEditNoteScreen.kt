@@ -26,7 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,7 +38,7 @@ import com.leit.booktracker.feature_bookshelf.presentation.add_edit_note.compone
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun AddEditNoteScreen(
     navController: NavController,
@@ -48,6 +50,8 @@ fun AddEditNoteScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val keyboardController = LocalSoftwareKeyboardController.current
+
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
@@ -97,14 +101,24 @@ fun AddEditNoteScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { viewModel.onEvent(AddEditNoteEvent.DeleteNote)}) {
+                    IconButton(
+                        onClick = {
+                            viewModel.onEvent(AddEditNoteEvent.DeleteNote)
+                            keyboardController?.hide()
+                        }
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = stringResource(id = R.string.delete_iconbtn_desc)
                         )
                     }
 
-                    IconButton(onClick = { viewModel.onEvent(AddEditNoteEvent.SaveNote)}) {
+                    IconButton(
+                        onClick = {
+                            viewModel.onEvent(AddEditNoteEvent.SaveNote)
+                            keyboardController?.hide()
+                        }
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Save,
                             contentDescription = stringResource(id = R.string.save_floatbtn)
