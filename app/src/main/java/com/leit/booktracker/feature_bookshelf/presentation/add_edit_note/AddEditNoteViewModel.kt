@@ -129,7 +129,7 @@ class AddEditNoteViewModel @Inject constructor(
             }
             is AddEditNoteEvent.DeleteNote ->{
                 viewModelScope.launch {
-                    if (_noteId != -1){
+                    if (_noteId != -1 && _noteId != null){
                         addEditNoteUseCases.deleteNoteById(_noteId!!)
                         _eventFlow.emit(UiEvent.NavigateUp)
                     }else{
