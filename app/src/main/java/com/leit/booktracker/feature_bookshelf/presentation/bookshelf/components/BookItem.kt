@@ -53,7 +53,7 @@ fun BookItem(
             }
 
             IconButton(onClick = onDeleteButtonClick) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.delete_book_iconbtn_desc))
+                Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.delete_iconbtn_desc))
             }
 
             if (book.status == BookStatus.IN_WISHLIST){

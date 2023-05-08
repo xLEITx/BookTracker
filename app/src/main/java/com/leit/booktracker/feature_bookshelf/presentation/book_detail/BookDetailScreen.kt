@@ -172,7 +172,11 @@ fun BookDetailScreen(
 
                     }
 
-                    IconButton(onClick = { /*TODO: on AddNote screen*/ }) {
+                    IconButton(onClick = {
+                        navController.navigate(
+                            Screen.AddEditNoteScreen.route + "?bookId=${state.book.bookId}"
+                        )
+                    }) {
                         Icon(
                             imageVector = Icons.Default.Note,
                             contentDescription = stringResource(R.string.add_note)
@@ -188,7 +192,9 @@ fun BookDetailScreen(
                         note = note,
                         modifier = Modifier
                             .clickable {
-                                //TODO: Transaction on the note edit screen
+                                navController.navigate(
+                                    Screen.AddEditNoteScreen.route + "?bookId=-1&noteId=${note.Id}"
+                                )
                             }
                     )
                     Spacer(modifier = Modifier.height(8.dp))

@@ -1,6 +1,7 @@
 package com.leit.booktracker.feature_bookshelf.presentation.add_edit_note
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -27,7 +28,7 @@ class AddEditNoteViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private var _noteId:Int = -1
+    private var _noteId:Int? = null
 
     private val _title = mutableStateOf(
         TextFieldState(
@@ -51,6 +52,7 @@ class AddEditNoteViewModel @Inject constructor(
 
     init {
         savedStateHandle.get<Int>("noteId")?.let { noteId ->
+            Log.d("ADD_EDIT_VM", noteId.toString())
             if(noteId != -1){
                 viewModelScope.launch {
                     addEditNoteUseCases.getSingleNote(noteId)?.also {note ->
@@ -67,6 +69,10 @@ class AddEditNoteViewModel @Inject constructor(
                     }
                 }
 
+            }else{
+                savedStateHandle.get<Int>("bookId")?.let { bookId ->
+                    _bookId.value = bookId
+                }
             }
         }
 
@@ -124,7 +130,7 @@ class AddEditNoteViewModel @Inject constructor(
             is AddEditNoteEvent.DeleteNote ->{
                 viewModelScope.launch {
                     if (_noteId != -1){
-                        addEditNoteUseCases.deleteNoteById(_noteId)
+                        addEditNoteUseCases.deleteNoteById(_noteId!!)
                         _eventFlow.emit(UiEvent.NavigateUp)
                     }else{
                         _eventFlow.emit(UiEvent.ShowSnackBar("The note wasn't saved yet."))

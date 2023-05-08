@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.leit.booktracker.feature_bookshelf.presentation.add_edit_book.BookAddEditScreen
+import com.leit.booktracker.feature_bookshelf.presentation.add_edit_note.AddEditNoteScreen
 import com.leit.booktracker.feature_bookshelf.presentation.book_detail.BookDetailScreen
 import com.leit.booktracker.feature_bookshelf.presentation.bookshelf.BookShelfScreen
 import com.leit.booktracker.feature_bookshelf.presentation.util.Screen
@@ -65,6 +66,22 @@ class MainActivity : ComponentActivity() {
                             )
                         ){
                             BookDetailScreen(navController = navController)
+                        }
+
+                        composable(
+                            route = Screen.AddEditNoteScreen.route + "?bookId={bookId}" + "&noteId={noteId}",
+                            arguments = listOf(
+                                navArgument(name = "bookId"){
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                },
+                                navArgument(name = "noteId"){
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                }
+                            )
+                        ){
+                            AddEditNoteScreen(navController = navController)
                         }
                     }
                 }

@@ -9,7 +9,7 @@
     <string name="add_book_fbutton_desc">Add book</string>
     <string name="bookshelf_screen_title">Your books</string>
     <string name="sort">Sort</string>
-    <string name="delete_book_iconbtn_desc">Delete book from list</string>
+    <string name="delete_iconbtn_desc">Delete</string>
     <string name="add_book_on_bookshelf_icnbtn_desc">Add book on bookshelf</string>
     <string name="book_deleted_snackbar_msg">Book deleted</string>
     <string name="undo">Undo</string>
@@ -32,6 +32,7 @@
     <string name="change_sort_type">Change sort type</string>
     <string name="write_your_note_hint">Write your note</string>
     <string name="title_can_t_be_empty">Title can`t be empty</string>
+    <string name="navigate_up">Navigate up</string>
 
     <string-array name="book_types">
         <item>Fantasy</item>

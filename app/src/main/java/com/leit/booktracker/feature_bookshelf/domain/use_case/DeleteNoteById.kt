@@ -6,6 +6,6 @@ class DeleteNoteById(
     private val repository: BookTrackerRepository
 ) {
     suspend operator fun invoke(id:Int){
-        repository.getNoteById(id)
+        repository.deleteNoteById(id)
     }
 }
