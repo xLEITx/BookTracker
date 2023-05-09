@@ -10,8 +10,6 @@ interface BookTrackerRepository {
 
     fun getBooks():Flow<List<Book>>
 
-    fun getBooks(status:String):Flow<List<Book>>
-
     suspend fun getBookById(bookId:Int):Book?
 
     suspend fun insertBook(book: Book)

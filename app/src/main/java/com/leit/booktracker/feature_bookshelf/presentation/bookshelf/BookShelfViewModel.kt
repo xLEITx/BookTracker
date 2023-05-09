@@ -1,6 +1,5 @@
 package com.leit.booktracker.feature_bookshelf.presentation.bookshelf
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -47,7 +46,7 @@ class BookShelfViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     bookFilter = event.bookFilter
                 )
-                getBooks(state.value.bookOrder, state.value.bookFilter)
+                getBooks(state.value.bookOrder, event.bookFilter)
             }
             is BookShelfEvent.DeleteBook ->{
                 viewModelScope.launch{
@@ -80,7 +79,6 @@ class BookShelfViewModel @Inject constructor(
         bookOrder: BookOrder,
         bookFilter: BookFilter
     ){
-        Log.d("SHELF_VM", "get books called")
         getBooksJob?.cancel()
 
         getBooksJob = bookShelfUseCases.getBooks(bookOrder)
@@ -89,35 +87,39 @@ class BookShelfViewModel @Inject constructor(
                     books = books,
                     bookOrder = bookOrder
                 )
-                if (!bookFilter.isInProgress){
-                    _state.value = state.value.copy(
-                        books = state.value.books.filterNot { book ->
-                            book.status == BookStatus.IN_PROGRESS
-                        }
-                    )
-                }
-                if (!bookFilter.isOnBookshelf){
-                    _state.value = state.value.copy(
-                        books = state.value.books.filterNot { book ->
-                            book.status == BookStatus.ON_BOOKSHELF
-                        }
-                    )
-                }
-                if (!bookFilter.isInWishlist){
-                    _state.value = state.value.copy(
-                        books = state.value.books.filterNot { book ->
-                            book.status == BookStatus.IN_WISHLIST
-                        }
-                    )
-                }
-                if (!bookFilter.isFinished){
-                    _state.value = state.value.copy(
-                        books = state.value.books.filterNot { book ->
-                            book.status == BookStatus.FINISHED
-                        }
-                    )
-                }
+                filterBooks(bookFilter)
             }.launchIn(viewModelScope)
+    }
+
+    private fun filterBooks(bookFilter: BookFilter){
+        if (!bookFilter.isInProgress){
+            _state.value = state.value.copy(
+                books = state.value.books.filterNot { book ->
+                    book.status == BookStatus.IN_PROGRESS
+                }
+            )
+        }
+        if (!bookFilter.isOnBookshelf){
+            _state.value = state.value.copy(
+                books = state.value.books.filterNot { book ->
+                    book.status == BookStatus.ON_BOOKSHELF
+                }
+            )
+        }
+        if (!bookFilter.isInWishlist){
+            _state.value = state.value.copy(
+                books = state.value.books.filterNot { book ->
+                    book.status == BookStatus.IN_WISHLIST
+                }
+            )
+        }
+        if (!bookFilter.isFinished){
+            _state.value = state.value.copy(
+                books = state.value.books.filterNot { book ->
+                    book.status == BookStatus.FINISHED
+                }
+            )
+        }
     }
 
 }

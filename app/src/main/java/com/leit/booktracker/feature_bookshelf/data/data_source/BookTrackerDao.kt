@@ -18,9 +18,6 @@ interface BookTrackerDao {
     @Query("SELECT * FROM book")
     fun getBooks(): Flow<List<Book>>
 
-    @Query("SELECT * FROM book WHERE status = :status")
-    fun getBooks(status:String):Flow<List<Book>>
-
     @Query("SELECT * FROM book WHERE bookId = :bookId ")
     suspend fun getBookById(bookId:Int):Book?
 
