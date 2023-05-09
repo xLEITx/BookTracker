@@ -101,7 +101,10 @@ fun BookShelfScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(state.books) { book ->
+                items(
+                    items = state.books,
+                    key = { it.bookId!! }
+                ) { book ->
                     BookItem(
                         book = book,
                         onAddButtonClick = {
