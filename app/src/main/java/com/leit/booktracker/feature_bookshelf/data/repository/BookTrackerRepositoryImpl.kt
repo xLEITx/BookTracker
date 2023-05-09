@@ -15,6 +15,10 @@ class BookTrackerRepositoryImpl(
         return dao.getBooks()
     }
 
+    override fun getBooks(status: String): Flow<List<Book>> {
+        return dao.getBooks(status)
+    }
+
     override suspend fun getBookById(bookId: Int): Book? {
         return dao.getBookById(bookId)
     }

@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,6 +31,8 @@ fun BookShelfScreen(
     navController: NavController,
     viewModel: BookShelfViewModel = hiltViewModel()
 ) {
+
+
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -100,8 +103,38 @@ fun BookShelfScreen(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                AssistChip(
+                    onClick = {
+                              viewModel.onEvent(
+                                  BookShelfEvent.FilterChange(
+                                      state.bookFilter.copy(
+                                          isInProgress = !state.bookFilter.isInProgress
+                                      )
+                                  )
+                              )
+                              },
+                    label = {
+                        Text(
+                            text = stringResource(R.string.in_progress_status)
+                        )
+                    },
+                    border = if (state.bookFilter.isInProgress) AssistChipDefaults.assistChipBorder(borderColor = Color.Green)
+                    else AssistChipDefaults.assistChipBorder()
+                )
+            }
+
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(state.books) { book ->
+                items(
+                    state.books
+                ) { book ->
                     BookItem(
                         book = book,
                         onAddButtonClick = {
