@@ -33,6 +33,10 @@
     <string name="write_your_note_hint">Write your note</string>
     <string name="title_can_t_be_empty">Title can`t be empty</string>
     <string name="navigate_up">Navigate up</string>
+    <string name="in_progress_status">In progress</string>
+    <string name="in_wishlist">In wishlist</string>
+    <string name="on_bookshelf">On bookshelf</string>
+    <string name="finished">Finished</string>
 
     <string-array name="book_types">
         <item>Fantasy</item>

@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import com.leit.booktracker.R
 import com.leit.booktracker.feature_bookshelf.domain.util.BookStatus
 import com.leit.booktracker.feature_bookshelf.presentation.bookshelf.components.BookItem
+import com.leit.booktracker.feature_bookshelf.presentation.bookshelf.components.FilterChipSection
 import com.leit.booktracker.feature_bookshelf.presentation.bookshelf.components.OrderSection
 import com.leit.booktracker.feature_bookshelf.presentation.util.Screen
 import kotlinx.coroutines.launch
@@ -64,13 +65,15 @@ fun BookShelfScreen(
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
                 .fillMaxSize()
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 8.dp)
             ) {
                 Text(
                     text = stringResource(R.string.bookshelf_screen_title),
@@ -92,15 +95,61 @@ fun BookShelfScreen(
                 OrderSection(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp),
+                        .padding(16.dp),
                     bookOrder = state.bookOrder,
                     onOrderChange = {
                         viewModel.onEvent(BookShelfEvent.Order(it))
                     }
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
+
+            //TODO:Better to remake with lazy row
+            FilterChipSection(
+                bookFilter = state.bookFilter,
+                onInProgress = {
+                    viewModel.onEvent(
+                        BookShelfEvent.FilterChange(
+                            state.bookFilter.copy(
+                                isInProgress = !state.bookFilter.isInProgress
+                            )
+                        )
+                    )
+                },
+                onInWishlist = {
+                    viewModel.onEvent(
+                        BookShelfEvent.FilterChange(
+                            state.bookFilter.copy(
+                                isInWishlist = !state.bookFilter.isInWishlist
+                            )
+                        )
+                    )
+                },
+                onOnBookshelf = {
+                    viewModel.onEvent(
+                        BookShelfEvent.FilterChange(
+                            state.bookFilter.copy(
+                                isOnBookshelf = !state.bookFilter.isOnBookshelf
+                            )
+                        )
+                    )
+                },
+                onFinished = {
+                    viewModel.onEvent(
+                        BookShelfEvent.FilterChange(
+                            state.bookFilter.copy(
+                                isFinished = !state.bookFilter.isFinished
+                            )
+                        )
+                    )
+                }
+            )
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 8.dp)
+            ) {
                 items(
                     items = state.books,
                     key = { it.bookId!! }
