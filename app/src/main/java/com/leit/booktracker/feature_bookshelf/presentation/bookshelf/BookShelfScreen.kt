@@ -4,6 +4,7 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -21,11 +22,12 @@ import androidx.navigation.NavController
 import com.leit.booktracker.R
 import com.leit.booktracker.feature_bookshelf.domain.util.BookStatus
 import com.leit.booktracker.feature_bookshelf.presentation.bookshelf.components.BookItem
-import com.leit.booktracker.feature_bookshelf.presentation.bookshelf.components.FilterChipSection
 import com.leit.booktracker.feature_bookshelf.presentation.bookshelf.components.OrderSection
+import com.leit.booktracker.feature_bookshelf.presentation.util.FilterOption
 import com.leit.booktracker.feature_bookshelf.presentation.util.Screen
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookShelfScreen(
     navController: NavController,
@@ -34,6 +36,7 @@ fun BookShelfScreen(
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+
 
     val snackbarStrings = listOf(
         stringResource(R.string.book_deleted_snackbar_msg),
@@ -103,46 +106,82 @@ fun BookShelfScreen(
                 )
             }
 
-            //TODO:Better to remake with lazy row
-            FilterChipSection(
-                bookFilter = state.bookFilter,
-                onInProgress = {
-                    viewModel.onEvent(
-                        BookShelfEvent.FilterChange(
-                            state.bookFilter.copy(
-                                isInProgress = !state.bookFilter.isInProgress
+
+
+            LazyRow(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+
+                val filterOptions = listOf(
+                    FilterOption(
+                        stringRes = R.string.in_progress_status,
+                        isSelected = state.bookFilter.isInProgress,
+                        onClick = {
+                            viewModel.onEvent(
+                                BookShelfEvent.FilterChange(
+                                    state.bookFilter.copy(
+                                        isInProgress = !state.bookFilter.isInProgress
+                                    )
+                                )
                             )
-                        )
-                    )
-                },
-                onInWishlist = {
-                    viewModel.onEvent(
-                        BookShelfEvent.FilterChange(
-                            state.bookFilter.copy(
-                                isInWishlist = !state.bookFilter.isInWishlist
+                        }
+                    ),
+                    FilterOption(
+                        stringRes = R.string.in_wishlist,
+                        isSelected = state.bookFilter.isInWishlist,
+                        onClick = {
+                            viewModel.onEvent(
+                                BookShelfEvent.FilterChange(
+                                    state.bookFilter.copy(
+                                        isInWishlist = !state.bookFilter.isInWishlist
+                                    )
+                                )
                             )
-                        )
-                    )
-                },
-                onOnBookshelf = {
-                    viewModel.onEvent(
-                        BookShelfEvent.FilterChange(
-                            state.bookFilter.copy(
-                                isOnBookshelf = !state.bookFilter.isOnBookshelf
+                        }
+                    ),
+                    FilterOption(
+                        stringRes = R.string.on_bookshelf,
+                        isSelected = state.bookFilter.isOnBookshelf,
+                        onClick = {
+                            viewModel.onEvent(
+                                BookShelfEvent.FilterChange(
+                                    state.bookFilter.copy(
+                                        isOnBookshelf = !state.bookFilter.isOnBookshelf
+                                    )
+                                )
                             )
-                        )
-                    )
-                },
-                onFinished = {
-                    viewModel.onEvent(
-                        BookShelfEvent.FilterChange(
-                            state.bookFilter.copy(
-                                isFinished = !state.bookFilter.isFinished
+                        }
+                    ),
+                    FilterOption(
+                        stringRes = R.string.finished,
+                        isSelected = state.bookFilter.isFinished,
+                        onClick = {
+                            viewModel.onEvent(
+                                BookShelfEvent.FilterChange(
+                                    state.bookFilter.copy(
+                                        isFinished = !state.bookFilter.isFinished
+                                    )
+                                )
                             )
-                        )
+                        }
                     )
+                )
+
+
+                items(filterOptions) { option ->
+                    FilterChip(
+                        selected = option.isSelected,
+                        onClick = option.onClick,
+                        label = { Text(text = stringResource(id = option.stringRes)) }
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+
                 }
-            )
+            }
 
             LazyColumn(
                 modifier = Modifier
