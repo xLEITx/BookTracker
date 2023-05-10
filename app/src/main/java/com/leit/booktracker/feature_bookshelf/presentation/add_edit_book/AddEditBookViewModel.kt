@@ -52,6 +52,7 @@ class AddEditBookViewModel @Inject constructor(
 
     private var currentBookId: Int? = null
 
+    var isNewBook = true
 
     init {
         savedStateHandle.get<Int>("bookId")?.let {bookId ->
@@ -71,12 +72,13 @@ class AddEditBookViewModel @Inject constructor(
                         _bookStatus.value = book.status
                         _bookPages.value = book.pagesCount
                     }
+                    isNewBook = false
                 }
             }
         }
     }
 
-    val isNewBook = currentBookId == -1
+
 
     fun onEvent(event: AddEditBookEvent) {
         when (event) {
